@@ -1,4 +1,3 @@
-import time
 import csv
 import os
 import tkinter as tk
@@ -32,8 +31,6 @@ def homepage():
     
     atwork = tk.Label()
     atwork.place(relx = 0.38, rely = 0.7)
-    
-    
     
 def signUp():
     signUpPage = tk.Toplevel(root)
@@ -79,26 +76,23 @@ def before_login():
     
     s = tk.Label(ss, image=start).pack()
     
-    boss = tk.Button(ss, image = start_boss, bg="#FFE2EA", highlightthickness=0, bd=0, command = signInn)
-    boss.place(relx = 0.3, rely = 0.3 )
+    boss = tk.Button(ss, image = start_boss, bg="#FFE2EA", fg="#FFE2EA", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    boss.place(relx = 0.35, rely = 0.3 )
     
-    host = tk.Button(ss, image = start_host, bg="#FFE2EA", highlightthickness=0, bd=0, command = signInn)
-    host.place(relx = 0.3, rely = 0.5 )
+    host = tk.Button(ss, image = start_host, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    host.place(relx = 0.35, rely = 0.5 )
     
-    waiter = tk.Button(ss, image = start_waiter, bg="#FFE2EA", highlightthickness=0, bd=0, command = signInn)
-    waiter.place(relx = 0.3, rely = 0.7 )
-    
-    
+    waiter = tk.Button(ss, image = start_waiter, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    waiter.place(relx = 0.35, rely = 0.7 )
+
 root = tk.Tk()
 root.geometry("1488x945")
 root.configure(bg ="magenta")
 
 splashBG = tk.PhotoImage(file = "splash_screen.png")
-
-
 splashLabel=tk.Label(root, image=splashBG).pack()
 
-root.after(1000, before_login)
+root.after(1000, lambda:[before_login(), root.withdraw()])
 
 
 
