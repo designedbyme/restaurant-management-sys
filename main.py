@@ -1,89 +1,106 @@
 import csv
 import os
 import tkinter as tk
+#import tkmacosx as tmacc
+from tkmacosx import Button
 from PIL import Image, ImageTk
-import pandas as pd 
 
+def waiter():
+    waiter = tk.Toplevel(root)
+    waiter.geometry("1488x945")
 
-def homepage():
-    home = tk.Toplevel(root)
-    home.geometry("1488x945")
-    
-    s = tk.Label(home, image=homeless_page).pack()
-    
-    atwork = tk.Label(home, text=f"Welcome, EASYUSER", font=("Inter", 20, "bold"), bg="#FFFFFF")
-    atwork.place(relx = 0.38, rely = 0.7)
-    
-    atwork = tk.Label(home, text="At Work:", font=("Inter", 20, "bold"), bg="#FFFFFF")
-    atwork.place(relx = 0.38, rely = 0.7)
-    
-    changers = tk.Button(home, image=settingBUTON, bg="#FFFFFF", highlightthickness = 0, bd = 0, command=home.destroy)
-    changers.place(relx=0.05, rely=0.1, anchor= 'center')
-    
-    start_ur_job = tk.Button(home, image=watch_jjk, bg="#FFFFFF", highlightthickness = 0, bd = 0, command=home.destroy)
-    start_ur_job.place(relx=0.05, rely=0.05, anchor= 'center')
-    
-    atwork = tk.Label()
-    atwork.place(relx = 0.38, rely = 0.7)
-    
-    atwork = tk.Label()
-    atwork.place(relx = 0.38, rely = 0.7)
-    
-    atwork = tk.Label()
-    atwork.place(relx = 0.38, rely = 0.7)
-    
 def signUp():
     signUpPage = tk.Toplevel(root)
     signUpPage.geometry("1488x945")
     
-    s = tk.Label(signUpPage, image=logIn).pack()
+    s = tk.Label(signUpPage, image=s_l_page).pack()
     
+    sign_up = tk.Label(signUpPage, text="Sign Up", font=('Didot', 48),fg="black",bg="white")
+    sign_up.place(relx = 0.43, rely = 0.249)
+
+    fname = tk.Label(signUpPage, text="Full Name:", font=('Didot', 32),fg="black",bg="white")
+    fname.place(relx = 0.3, rely = 0.4)
+
+    email = tk.Label(signUpPage, text="Email:", font=('Didot', 32),fg="black",bg="white")
+    email.place(relx = 0.345, rely = 0.5)
+    
+    password = tk.Label(signUpPage, text="Password:", font=('Didot', 32),fg="black",bg="white")
+    password.place(relx = 0.31, rely = 0.6)
+
+
     back_button = tk.Button(signUpPage, image=backButt, bg="#FFE2EA", highlightthickness = 0, bd = 0, command=signUpPage.destroy)
     back_button.place(relx=0.05, rely=0.05, anchor= 'center')
     
-    name = tk.Entry(signUpPage, width = 17, font=("Inria Sans", 25))
-    name.place(relx = 0.37, rely = 0.4)
+    name = tk.Entry(signUpPage, 
+                    width = 22, 
+                    font=("Inria Sans", 25),
+                    fg="#FF88A9",bg="#FFE2EA",
+                    highlightthickness = 0, bd = 0)
+    name.place(relx = 0.435, rely = 0.41)
     
-    email = tk.Entry(signUpPage, width = 17, font=("Inria Sans", 25))
-    email.place(relx = 0.37, rely = 0.5)
+    email = tk.Entry(signUpPage,
+                     width = 22, 
+                     font=("Inria Sans", 25),
+                     fg="#FF88A9",bg="#FFE2EA",
+                     highlightthickness = 0, bd = 0)
+    email.place(relx = 0.435, rely = 0.51)
     
-    pw = tk.Entry(signUpPage, width = 17, font=("Inria Sans", 25))
-    pw.place(relx = 0.37, rely = 0.6)
+    pw = tk.Entry(signUpPage,
+                  width = 22,
+                  font=("Inria Sans", 25),
+                  fg="#FF88A9",bg="#FFE2EA",
+                  highlightthickness = 0, bd = 0)
+    pw.place(relx = 0.435, rely = 0.61)
          
     sUp = tk.Button(signUpPage, image = signUpButt, bg="#FFFFFF", highlightthickness=0, bd=0)
     sUp.place(relx = 0.38, rely = 0.7)
 
-def signInn():
-    Start = tk.Toplevel(root)
-    Start.geometry("1488x945")
-    
-    s = tk.Label(Start, image=signIn).pack()
-    
-    name = tk.Entry(Start, width = 17, font=("Inria Sans", 25))
-    name.place(relx = 0.37, rely = 0.45)
-    pw = tk.Entry(Start, width = 17, font=("Inria Sans", 25))
-    pw.place(relx = 0.37, rely = 0.64)
-    
-    signUpButton = tk.Button(Start, text = "Sign Up", font=("Inter", 10, "underline"), bg="#FFFFFF", fg="#000000", highlightthickness=0, bd=0, command = signUp)
-    signUpButton.place(relx = 0.37, rely = 0.7 )
-    
-    logIn = tk.Button(Start, image = signInButt, bg="#FFFFFF", highlightthickness=0, bd=0, command = homepage)
-    logIn.place(relx = 0.38, rely = 0.75)
-
-def before_login():
+def job_select():
     ss = tk.Toplevel(root)
     ss.geometry("1488x945")
     
     s = tk.Label(ss, image=start).pack()
     
-    boss = tk.Button(ss, image = start_boss, bg="#FFE2EA", fg="#FFE2EA", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
-    boss.place(relx = 0.35, rely = 0.3 )
+    #boss = tk.Button(ss, image = start_boss, bg="#FFE2EA", fg="#FFE2EA", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    #boss.place(relx = 0.35, rely = 0.3 )
     
     host = tk.Button(ss, image = start_host, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
-    host.place(relx = 0.35, rely = 0.5 )
+    host.place(relx = 0.329, rely = 0.3 )
     
     waiter = tk.Button(ss, image = start_waiter, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
-    waiter.place(relx = 0.35, rely = 0.7 )
+    waiter.place(relx = 0.329, rely = 0.6 )
+
+def signInn():
+    Start = tk.Toplevel(root)
+    Start.geometry("1488x945")
+    
+    s = tk.Label(Start, image=s_l_page).pack()
+
+    sign_in = tk.Label(Start, text="Sign In", font=('Didot', 48),fg="black",bg="white")
+    sign_in.place(relx = 0.43, rely = 0.249)
+
+    username = tk.Label(Start, text="Username:", font=('Didot', 32),fg="black",bg="white")
+    username.place(relx = 0.365, rely = 0.375)
+
+    password = tk.Label(Start, text="Password:", font=('Didot', 32),fg="black",bg="white")
+    password.place(relx = 0.365, rely = 0.6)
+
+    name = tk.Entry(Start, width = 23, font=("Inria Sans", 25), fg="black",bg="white")
+    name.place(relx = 0.368, rely = 0.43)
+
+    pw = tk.Entry(Start, width = 23, font=("Inria Sans", 25), fg="black",bg="white")
+    pw.place(relx = 0.368, rely = 0.65)
+    
+    signUpButton = Button(Start, text = "Sign Up", font=("Inter", 10, "underline"), bg="white", fg="black", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signUp(), Start.withdraw()])
+    signUpButton.place(relx = 0.368, rely = 0.75)
+    
+    logIn = tk.Button(Start, 
+                   image = signInButt, 
+                   bg="white", 
+                   highlightthickness=0, 
+                   takefocus=0, bd=0, 
+                   command = lambda: [job_select(), Start.withdraw()])
+    logIn.place(relx = 0.38, rely = 0.8)
 
 root = tk.Tk()
 root.geometry("1488x945")
@@ -92,8 +109,9 @@ root.configure(bg ="magenta")
 splashBG = tk.PhotoImage(file = "splash_screen.png")
 splashLabel=tk.Label(root, image=splashBG).pack()
 
-root.after(1000, lambda:[before_login(), root.withdraw()])
+root.after(1000, lambda:[signInn(), root.withdraw()])
 
+# font=('Didot', 12)
 
 # app images
 start_boss = tk.PhotoImage(file = "start_boss.png")
@@ -108,6 +126,7 @@ signInButt = tk.PhotoImage(file = "sign in button.png")
 signUpButt = tk.PhotoImage(file = "sign up button.png")
 
 start = tk.PhotoImage(file = "choose job.png")
+s_l_page = tk.PhotoImage(file = "signup_login.png")
 signIn = tk.PhotoImage(file = "log In.png")
 logIn = tk.PhotoImage(file = "sign up.png")
 homeless_page = tk.PhotoImage(file = "homer_page.png")
