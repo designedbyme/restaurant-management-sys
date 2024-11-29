@@ -118,9 +118,6 @@ start_boss = tk.PhotoImage(file = "start_boss.png")
 start_host = tk.PhotoImage(file = "start_host.png")
 start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
-watch_jjk = tk.PhotoImage(file = "start job button.png")
-settingBUTON = tk.PhotoImage(file = "settings.png")
-
 backButt = tk.PhotoImage(file = "backButton.png")
 signInButt = tk.PhotoImage(file = "sign in button.png")
 signUpButt = tk.PhotoImage(file = "sign up button.png")
