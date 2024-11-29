@@ -95,7 +95,6 @@ splashLabel=tk.Label(root, image=splashBG).pack()
 root.after(1000, lambda:[before_login(), root.withdraw()])
 
 
-
 # app images
 start_boss = tk.PhotoImage(file = "start_boss.png")
 start_host = tk.PhotoImage(file = "start_host.png")
