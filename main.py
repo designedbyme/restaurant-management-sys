@@ -61,9 +61,6 @@ def job_select():
     
     s = tk.Label(ss, image=start).pack()
     
-    #boss = tk.Button(ss, image = start_boss, bg="#FFE2EA", fg="#FFE2EA", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
-    #boss.place(relx = 0.35, rely = 0.3 )
-    
     host = tk.Button(ss, image = start_host, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
     host.place(relx = 0.329, rely = 0.3 )
     
@@ -114,7 +111,6 @@ root.after(1000, lambda:[signInn(), root.withdraw()])
 # font=('Didot', 12)
 
 # app images
-start_boss = tk.PhotoImage(file = "start_boss.png")
 start_host = tk.PhotoImage(file = "start_host.png")
 start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
@@ -124,9 +120,6 @@ signUpButt = tk.PhotoImage(file = "sign up button.png")
 
 start = tk.PhotoImage(file = "choose job.png")
 s_l_page = tk.PhotoImage(file = "signup_login.png")
-signIn = tk.PhotoImage(file = "log In.png")
-logIn = tk.PhotoImage(file = "sign up.png")
-homeless_page = tk.PhotoImage(file = "homer_page.png")
 
 
 # some buttons
