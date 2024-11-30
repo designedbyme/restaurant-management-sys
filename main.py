@@ -5,9 +5,76 @@ import tkinter as tk
 from tkmacosx import Button
 from PIL import Image, ImageTk
 
-def waiter():
+def host_hompage():
+    host = tk.Toplevel(root)
+    host.geometry("1488x945")
+    s = tk.Label(host, image=host_homepage).pack()
+
+    header = tk.Label(host, 
+                      text=f"Welcome, EASYUSER",
+                      font=("Inter", 30, "bold"), 
+                      bg="white", fg="black")
+    header.place(relx = 0.1, rely = 0.19)
+
+    subHeader = tk.Label(host, 
+                      text="End Job",
+                      font=("Inter", 30, "bold"), 
+                      bg="white", fg="black")
+    subHeader.place(relx = 0.225, rely = 0.375)
+
+    signoutButton = tk.Button(host, 
+                              image = home_signOutButt, 
+                              bg="white", 
+                              highlightthickness=0, takefocus=0, bd=0, 
+                              command = lambda: [signInn(), host.withdraw()])
+    signoutButton.place(relx = 0.14, rely = 0.48)
+
+
+    tableButt = tk.Button(host, 
+                         image = home_tableButt, 
+                         bg="white", 
+                         highlightthickness=0, takefocus=0, bd=0, 
+                         command = lambda: [signInn(), host.withdraw()])
+    tableButt.place(relx = 0.6, rely = 0.43)
+
+def waiter_hompage():
     waiter = tk.Toplevel(root)
     waiter.geometry("1488x945")
+    s = tk.Label(waiter, image=waiter_homepage).pack()
+
+    header = tk.Label(waiter, 
+                      text=f"Welcome, EASYUSER",
+                      font=("Inter", 30, "bold"), 
+                      bg="white", fg="black")
+    header.place(relx = 0.1, rely = 0.19)
+
+    subHeader = tk.Label(waiter, 
+                      text="End Job",
+                      font=("Inter", 30, "bold"), 
+                      bg="white", fg="black")
+    subHeader.place(relx = 0.225, rely = 0.375)
+
+    signoutButton = tk.Button(waiter, 
+                              image = home_signOutButt, 
+                              bg="white", 
+                              highlightthickness=0, takefocus=0, bd=0, 
+                              command = lambda: [signInn(), waiter.withdraw()])
+    signoutButton.place(relx = 0.14, rely = 0.48)
+
+
+    menuButt = tk.Button(waiter, 
+                         image = home_menuButt, 
+                         bg="white", 
+                         highlightthickness=0, takefocus=0, bd=0, 
+                         command = lambda: [signInn(), waiter.withdraw()])
+    menuButt.place(relx = 0.6, rely = 0.4)
+
+    orderButt= tk.Button(waiter, 
+                         image = home_ordersButt, 
+                         bg="white", 
+                         highlightthickness=0, takefocus=0, bd=0, 
+                         command = lambda: [signInn(), waiter.withdraw()])
+    orderButt.place(relx = 0.6, rely = 0.64)
 
 def signUp():
     signUpPage = tk.Toplevel(root)
@@ -61,10 +128,17 @@ def job_select():
     
     s = tk.Label(ss, image=start).pack()
     
-    host = tk.Button(ss, image = start_host, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    host = tk.Button(ss, 
+                     image = start_host, 
+                     bg="#FFE2EA", highlightthickness=0, bd=0, 
+                     command = lambda: [host_hompage(), ss.destroy()])
     host.place(relx = 0.329, rely = 0.3 )
     
-    waiter = tk.Button(ss, image = start_waiter, bg="#FFE2EA", highlightthickness=0, bd=0, command = lambda: [signInn(), ss.withdraw()])
+    waiter = tk.Button(ss, 
+                       image = start_waiter, 
+                       bg="#FFE2EA", 
+                       highlightthickness=0, bd=0, 
+                       command = lambda: [waiter_hompage(), ss.destroy()])
     waiter.place(relx = 0.329, rely = 0.6 )
 
 def signInn():
@@ -121,18 +195,28 @@ root.after(200, lambda:[signInn(), root.withdraw()])
 
 # font=('Didot', 12)
 
-# app images
+
+# app BACKGROUND
 start_host = tk.PhotoImage(file = "start_host.png")
 start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
 start = tk.PhotoImage(file = "choose job.png")
 s_l_page = tk.PhotoImage(file = "signup_login.png")
 
+host_homepage = tk.PhotoImage(file = "host_homepage.png")
+waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
 
 # some buttons
 backButt = tk.PhotoImage(file = "backButton.png")
+
 signInButt = tk.PhotoImage(file = "sign in button.png")
 signUpButt = tk.PhotoImage(file = "sign up button.png")
+
+home_menuButt = tk.PhotoImage(file = "home-menuButt.png")
+home_ordersButt = tk.PhotoImage(file = "home-ordersButt.png")
+home_signOutButt = tk.PhotoImage(file = "home-signOutButt.png")
+home_tableButt = tk.PhotoImage(file = "home-tableButt.png")
+
 
 
 root.mainloop()
