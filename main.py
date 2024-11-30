@@ -82,13 +82,24 @@ def signInn():
     password = tk.Label(Start, text="Password:", font=('Didot', 32),fg="black",bg="white")
     password.place(relx = 0.365, rely = 0.6)
 
-    name = tk.Entry(Start, width = 23, font=("Inria Sans", 25), fg="black",bg="white")
+    name = tk.Entry(Start, 
+                    width = 23, 
+                    font=("Inria Sans", 25), 
+                    fg="black",bg="white")
     name.place(relx = 0.368, rely = 0.43)
 
-    pw = tk.Entry(Start, width = 23, font=("Inria Sans", 25), fg="black",bg="white")
+    pw = tk.Entry(Start, 
+                  width = 23, 
+                  font=("Inria Sans", 25), 
+                  fg="black",bg="white")
     pw.place(relx = 0.368, rely = 0.65)
     
-    signUpButton = Button(Start, text = "Sign Up", font=("Inter", 10, "underline"), bg="white", fg="black", borderwidth=0, highlightthickness=0, bd=0, command = lambda: [signUp(), Start.withdraw()])
+    signUpButton = Button(Start, 
+                          text = "Sign Up", 
+                          font=("Inter", 10, "underline"), 
+                          bg="white", fg="black", 
+                          borderwidth=0, highlightthickness=0, bd=0, 
+                          command = lambda: [signUp(), Start.withdraw()])
     signUpButton.place(relx = 0.368, rely = 0.75)
     
     logIn = tk.Button(Start, 
@@ -106,7 +117,7 @@ root.configure(bg ="magenta")
 splashBG = tk.PhotoImage(file = "splash_screen.png")
 splashLabel=tk.Label(root, image=splashBG).pack()
 
-root.after(1000, lambda:[signInn(), root.withdraw()])
+root.after(200, lambda:[signInn(), root.withdraw()])
 
 # font=('Didot', 12)
 
@@ -114,15 +125,14 @@ root.after(1000, lambda:[signInn(), root.withdraw()])
 start_host = tk.PhotoImage(file = "start_host.png")
 start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
-backButt = tk.PhotoImage(file = "backButton.png")
-signInButt = tk.PhotoImage(file = "sign in button.png")
-signUpButt = tk.PhotoImage(file = "sign up button.png")
-
 start = tk.PhotoImage(file = "choose job.png")
 s_l_page = tk.PhotoImage(file = "signup_login.png")
 
 
 # some buttons
+backButt = tk.PhotoImage(file = "backButton.png")
+signInButt = tk.PhotoImage(file = "sign in button.png")
+signUpButt = tk.PhotoImage(file = "sign up button.png")
 
 
 root.mainloop()
