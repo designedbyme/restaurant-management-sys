@@ -5,6 +5,8 @@ import tkinter as tk
 from tkmacosx import Button
 from PIL import Image, ImageTk
 
+
+
 def host_hompage():
     host = tk.Toplevel(root)
     host.geometry("1488x945")
