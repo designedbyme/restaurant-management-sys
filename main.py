@@ -35,13 +35,155 @@ def host_hompage():
                          image = home_tableButt, 
                          bg="white", 
                          highlightthickness=0, takefocus=0, bd=0, 
-                         command = lambda: [signInn(), host.withdraw()])
+                         command = lambda: [tables(), host.withdraw()])
     tableButt.place(relx = 0.6, rely = 0.43)
 
 def tables():
     tables = tk.Toplevel(root)
     tables.geometry("1488x945")
-    s = tk.Label(tables, image=host_homepage).pack()
+    s = tk.Label(tables, image=t_hub).pack()
+
+    back_button = tk.Button(tables, 
+                            image=backButt, 
+                            bg="#CC5576", 
+                            highlightthickness = 0, bd = 0, 
+                            command= lambda: [host_hompage(), tables.withdraw()])
+    back_button.place(relx=0.06, rely=0.05, anchor= 'center')
+
+    tableFrame = tk.Frame(tables,  
+                          bg ="#FEB5C9",
+                          height=802, width=1488)
+    tableFrame.place(relx = 0, rely = 0.14)
+
+    def changePage():
+        global page_one
+        if page_one:
+            for widget in tableFrame.winfo_children():
+                widget.destroy()
+
+            table1 = tk.Button(tableFrame, 
+                            image = t_1, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table1.place(relx = 0.03, rely = 0)
+
+            table2 = tk.Button(tableFrame, 
+                            image = t_2, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table2.place(relx = 0.21, rely = 0)
+
+            table3 = tk.Button(tableFrame, 
+                            image = t_3, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table3.place(relx = 0.39, rely = 0)
+
+            table4 = tk.Button(tableFrame, 
+                            image = t_4, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table4.place(relx = 0.57, rely = 0)
+
+            table5 = tk.Button(tableFrame, 
+                            image = t_5, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table5.place(relx = 0.75, rely = 0)
+
+            table6 = tk.Button(tableFrame, 
+                            image = t_6, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table6.place(relx = 0.03, rely = 0.3)
+
+            table7 = tk.Button(tableFrame, 
+                            image = t_7, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table7.place(relx = 0.21, rely = 0.3)
+
+            table8 = tk.Button(tableFrame, 
+                            image = t_8, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table8.place(relx = 0.39, rely = 0.3)
+
+            table9 = tk.Button(tableFrame, 
+                            image = t_9, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table9.place(relx = 0.57, rely = 0.3)
+
+            table10 = tk.Button(tableFrame, 
+                            image = t_10, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table10.place(relx = 0.75, rely = 0.3)
+
+            table11 = tk.Button(tableFrame, 
+                            image = t_11, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table11.place(relx = 0.09, rely = 0.6)
+
+            table12 = tk.Button(tableFrame, 
+                            image = t_12, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table12.place(relx = 0.34, rely = 0.6)
+
+            table13 = tk.Button(tableFrame, 
+                            image = t_13, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [host_hompage(), tables.withdraw()])
+            table13.place(relx = 0.6, rely = 0.6)
+
+
+            nextP = tk.Button(tableFrame, 
+                            image = t_next, 
+                            bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                            command = changePage)
+            nextP.place(relx = 0.932, rely = 0)
+            
+            page_one = False
+        else:
+            for widget in tableFrame.winfo_children():
+                widget.destroy()
+
+            table14 = tk.Button(tableFrame, 
+                                image = t_14, 
+                                bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [host_hompage(), tables.withdraw()])
+            table14.place(relx = 0.075, rely = 0)
+
+            table15 = tk.Button(tableFrame, 
+                                image = t_15, 
+                                bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [host_hompage(), tables.withdraw()])
+            table15.place(relx = 0.5, rely = 0)
+
+            table16 = tk.Button(tableFrame, 
+                                image = t_16, 
+                                bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [host_hompage(), tables.withdraw()])
+            table16.place(relx = 0.075, rely = 0.5)
+
+            table17 = tk.Button(tableFrame, 
+                                image = t_17, 
+                                bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [host_hompage(), tables.withdraw()])
+            table17.place(relx = 0.5, rely = 0.5)
+
+            backP = tk.Button(tableFrame, 
+                              image = t_back, 
+                              bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
+                              command = changePage)
+            backP.place(relx = 0, rely = 0)
+        
+            page_one = True
+    
+    changePage()
 
 
 def waiter_hompage():
@@ -150,12 +292,6 @@ def menus(typo):
                       font=('American Typewriter', 55),
                       bg="#CC5576", fg="black")
     header.place(relx = 0.35, rely = 0.04)
-
-    #test=tk.Label(menu, 
-    #                  text="tet",
-     #                 font=('American Typewriter', 55),
-      #                bg="white", fg="black")
-   # test.place(relx = 0, rely = 0.14)
 
     foodFrame = tk.Frame(menu,  
                          bg ="#FFE2EA",
@@ -518,7 +654,7 @@ def orderHub():
 def tips():
     tips = tk.Toplevel(root)
     tips.geometry("1488x945")
-    s = tk.Label(tips, image=t_hub).pack()
+    s = tk.Label(tips, image=tip_hub).pack()
 
     back_button = tk.Button(tips, 
                             image=backButt, 
@@ -528,19 +664,19 @@ def tips():
     back_button.place(relx=0.04, rely=0.06, anchor= 'center')
 
     tt_15 = tk.Button(tips, 
-                      image = t_15, 
+                      image = ttt_15, 
                       bg="white", 
                       highlightthickness=0, takefocus=0, bd=0, 
                       command = lambda: [purchaseComplete(), tips.withdraw()])
     tt_15.place(relx = 0.2, rely = 0.3)
     tt_20 = tk.Button(tips, 
-                      image = t_20, 
+                      image = ttt_20, 
                       bg="white", 
                       highlightthickness=0, takefocus=0, bd=0, 
                       command = lambda: [purchaseComplete(), tips.withdraw()])
     tt_20.place(relx = 0.4, rely = 0.3)
     tt_25 = tk.Button(tips, 
-                      image = t_25, 
+                      image = ttt_25, 
                       bg="white", 
                       highlightthickness=0, takefocus=0, bd=0, 
                       command = lambda: [purchaseComplete(), tips.withdraw()])
@@ -563,7 +699,7 @@ def tips():
 def customTips():
     tips = tk.Toplevel(root)
     tips.geometry("1488x945")
-    s = tk.Label(tips, image=t_hub).pack()
+    s = tk.Label(tips, image=tip_hub).pack()
 
     header = tk.Label(tips, 
                       text="Enter Amount:",
@@ -734,9 +870,8 @@ start = tk.PhotoImage(file = "choose job.png")
 host_homepage = tk.PhotoImage(file = "host_homepage.png")
 waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
 
-#WAITER ORDER/MENU SCREENS
-host_homepage = tk.PhotoImage(file = "host_homepage.png")
-waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
+#HOST: TABLES
+t_hub = tk.PhotoImage(file = "table screen.png")
 
 #WAITER: MENU
 m_hub = tk.PhotoImage(file = "menu-hubScreen.png")
@@ -744,7 +879,7 @@ m_hub = tk.PhotoImage(file = "menu-hubScreen.png")
 o_hub = tk.PhotoImage(file = "orders screen.png")
 o_complete = tk.PhotoImage(file = "order confirmation screen.png")
 #WAITER: ORDERS: TIPS
-t_hub = tk.PhotoImage(file = "tips screen.png")
+tip_hub = tk.PhotoImage(file = "tips screen.png")
 
 
 '''APP BUTTONS'''
@@ -763,6 +898,25 @@ home_menuButt = tk.PhotoImage(file = "home-menuButt.png")
 home_ordersButt = tk.PhotoImage(file = "home-ordersButt.png")
 
 #TABLE BUTTONS
+t_1 = tk.PhotoImage(file = "table-1.png")
+t_2 = tk.PhotoImage(file = "table-2.png")
+t_3 = tk.PhotoImage(file = "table-3.png")
+t_4 = tk.PhotoImage(file = "table-4.png")
+t_5 = tk.PhotoImage(file = "table-5.png")
+t_6 = tk.PhotoImage(file = "table-6.png")
+t_7 = tk.PhotoImage(file = "table-7.png")
+t_8 = tk.PhotoImage(file = "table-8.png")
+t_9 = tk.PhotoImage(file = "table-9.png")
+t_10 = tk.PhotoImage(file = "table-10.png")
+t_11 = tk.PhotoImage(file = "table-11.png")
+t_12 = tk.PhotoImage(file = "table-12.png")
+t_13 = tk.PhotoImage(file = "table-13.png")
+t_14 = tk.PhotoImage(file = "table-14.png")
+t_15 = tk.PhotoImage(file = "table-15.png")
+t_16 = tk.PhotoImage(file = "table-16.png")
+t_17 = tk.PhotoImage(file = "table-17.png")
+t_next = tk.PhotoImage(file = "table-next.png")
+t_back = tk.PhotoImage(file = "table-back.png")
 
 #MENU BUTTONS
 m_bev = tk.PhotoImage(file = "menu-beverage-button.png")
@@ -829,13 +983,13 @@ o_hold = tk.PhotoImage(file = "orders-hold.png")
 o_next = tk.PhotoImage(file = "orders-orderNext.png")
 o_prev = tk.PhotoImage(file = "orders-orderPrev.png")
 #TIPS BUTTONS
-t_15 = tk.PhotoImage(file = "tips-15Tip.png")
-t_20 = tk.PhotoImage(file = "tips-20Tip.png")
-t_25 = tk.PhotoImage(file = "tips-25Tip.png")
+ttt_15 = tk.PhotoImage(file = "tips-15Tip.png")
+ttt_20 = tk.PhotoImage(file = "tips-20Tip.png")
+ttt_25 = tk.PhotoImage(file = "tips-25Tip.png")
 t_custom = tk.PhotoImage(file = "tips-customTip.png")
 t_none = tk.PhotoImage(file = "tips-noTip.png")
 tc_back = tk.PhotoImage(file = "tipscustom-backButt.png")
 tc_next = tk.PhotoImage(file = "tipscustom-nextButt.png")
 
-
+page_one = True
 root.mainloop()
