@@ -59,7 +59,7 @@ def waiter_hompage():
     signoutButton = tk.Button(waiter, 
                               image = home_signOutButt, 
                               bg="white", 
-                              highlightthickness=0, takefocus=0, bd=0, 
+                              highlightthickness=0, bd=0, 
                               command = lambda: [signInn(), waiter.withdraw()])
     signoutButton.place(relx = 0.14, rely = 0.48)
 
@@ -74,7 +74,7 @@ def waiter_hompage():
     orderButt= tk.Button(waiter, 
                          image = home_ordersButt, 
                          bg="white", 
-                         highlightthickness=0, takefocus=0, bd=0, 
+                         highlightthickness=0, bd=0, 
                          command = lambda: [orderHub(), waiter.withdraw()])
     orderButt.place(relx = 0.6, rely = 0.64)
 
@@ -88,43 +88,46 @@ def orderHub():
     order.geometry("1488x945")    
     s = tk.Label(order, image=o_hub).pack()
 
+    header = tk.Label(order, 
+                      text=f"Table X's Order:",
+                      font=("Inter", 40, "bold"), 
+                      bg="#FF88A9", fg="white")
+    header.place(relx = 0.05, rely = 0.1)
+
     bck = tk.Button(order, 
                     image=o_prev,
                     bg="#FF88A9", 
                     highlightthickness=0, 
                     takefocus=0, bd=0, 
                     command = lambda: [job_select(), order.withdraw()])
-    bck.place(relx = 0.2, rely = 0.3)
+    bck.place(relx = 0.35, rely = 0.1)
     nxt = tk.Button(order, 
                     image=o_next ,
                     bg="#FF88A9", 
                     highlightthickness=0, 
                     takefocus=0, bd=0,
                     command = lambda: [job_select(), order.withdraw()])
-    nxt.place(relx = 0.4, rely = 0.3)
+    nxt.place(relx = 0.4, rely = 0.1)
 
 
     credit = tk.Button(order, 
                        image=o_credit,
                        bg="#FF88A9", 
-                       highlightthickness=0, 
-                       takefocus=0, bd=0, 
+                       highlightthickness=0, takefocus=0, bd=0, 
                        command = lambda: [job_select(), order.withdraw()])
     credit.place(relx = 0.6, rely = 0.3)
 
     cash = tk.Button(order, 
                      image=o_cash,
                      bg="#FF88A9", 
-                     highlightthickness=0, 
-                     akefocus=0, bd=0, 
+                     highlightthickness=0, takefocus=0, bd=0, 
                      command = lambda: [job_select(), order.withdraw()])
     cash.place(relx = 0.6, rely = 0.5)
 
     hold = tk.Button(order, 
                      image=o_hold,
                      bg="#FF88A9", 
-                     highlightthickness=0, 
-                     akefocus=0, bd=0, 
+                     highlightthickness=0, takefocus=0, bd=0, 
                      command = lambda: [job_select(), order.withdraw()])
     hold.place(relx = 0.6, rely = 0.7)
     
@@ -148,7 +151,7 @@ def signUp():
     password.place(relx = 0.31, rely = 0.6)
 
 
-    back_button = tk.Button(signUpPage, image=backButt, bg="#FFE2EA", highlightthickness = 0, bd = 0, command=signUpPage.destroy)
+    back_button = tk.Button(signUpPage, image=backButt, bg="#FFE2EA", highlightthickness = 0, bd = 0, command=signUpPage.withdraw)
     back_button.place(relx=0.05, rely=0.05, anchor= 'center')
     
     name = tk.Entry(signUpPage, 
@@ -184,14 +187,14 @@ def job_select():
     host = tk.Button(ss, 
                      image = start_host, 
                      bg="#FFE2EA", highlightthickness=0, bd=0, 
-                     command = lambda: [host_hompage(), ss.destroy()])
+                     command = lambda: [host_hompage(), ss.withdraw()])
     host.place(relx = 0.329, rely = 0.3 )
     
     waiter = tk.Button(ss, 
                        image = start_waiter, 
                        bg="#FFE2EA", 
                        highlightthickness=0, bd=0, 
-                       command = lambda: [waiter_hompage(), ss.destroy()])
+                       command = lambda: [waiter_hompage(), ss.withdraw()])
     waiter.place(relx = 0.329, rely = 0.6 )
 
 def signInn():
