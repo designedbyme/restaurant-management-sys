@@ -365,21 +365,76 @@ def menus(typo):
                            image = s_farofa, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                            command = lambda: [menuHub(), menu.withdraw()])
-        farofa.place(relx = 0.48, rely = 0.5)
+        farofa.place(relx = 0.485, rely = 0.5)
 
         fries = tk.Button(foodFrame, 
                           image = s_fries, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                           command = lambda: [menuHub(), menu.withdraw()])
         fries.place(relx = 0.7, rely = 0.5)
-
-
-    '''   
     elif typo == "DESSERTS":
+        tresLeches = tk.Button(foodFrame, 
+                               image = d_tresLeches, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        tresLeches.place(relx = 0.05, rely = 0.05)
+
+        acaiBowl = tk.Button(foodFrame, 
+                             image = d_acaiBowl, 
+                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                             command = lambda: [menuHub(), menu.withdraw()])
+        acaiBowl.place(relx = 0.25, rely = 0.05)
+
+        brigadeiro = tk.Button(foodFrame, 
+                               image = d_brigadeiro, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        brigadeiro.place(relx = 0.425, rely = 0.05)
+
+        churros = tk.Button(foodFrame, 
+                            image = d_churros, 
+                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [menuHub(), menu.withdraw()])
+        churros.place(relx = 0.6, rely = 0.05)
+
+        flan = tk.Button(foodFrame, 
+                         image = d_flan, 
+                         bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                         command = lambda: [menuHub(), menu.withdraw()])
+        flan.place(relx = 0.77, rely = 0.05)
+        
+        atoleElote = tk.Button(foodFrame, 
+                               image = d_atoleElote, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        atoleElote.place(relx = 0.05, rely = 0.5)
+
+        quesitos = tk.Button(foodFrame, 
+                             image = d_quesitos, 
+                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                             command = lambda: [menuHub(), menu.withdraw()])
+        quesitos.place(relx = 0.2, rely = 0.5)
+
+        arrozLeche = tk.Button(foodFrame, 
+                               image = d_arrozLeche, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        arrozLeche.place(relx = 0.415, rely = 0.5)
+
+        arrozDulce = tk.Button(foodFrame, 
+                               image = d_arrozDulce, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        arrozDulce.place(relx = 0.615, rely = 0.5)
+
+        dulceLeche = tk.Button(foodFrame, 
+                               image = d_dulceLeche, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        dulceLeche.place(relx = 0.78, rely = 0.5)
+
     else:
         pass
-'''
-
 
 def orderHub():
     order = tk.Toplevel(root)
@@ -754,19 +809,18 @@ s_wRice = tk.PhotoImage(file = "sides-white rice.png")
 s_mCSalad = tk.PhotoImage(file = "sides-mexican salda.png")
 s_farofa = tk.PhotoImage(file = "sides-farofa.png")
 s_fries = tk.PhotoImage(file = "sides-fries.png")
-#MENU: DESSERTS
-''' 
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-d_ = tk.PhotoImage(file = "")
-'''
+#MENU: DESSERTS 
+d_tresLeches = tk.PhotoImage(file = "desserts-tresLeches.png")
+d_acaiBowl = tk.PhotoImage(file = "desserts-acaibowl.png")
+d_brigadeiro = tk.PhotoImage(file = "desserts-brigabriga.png")
+d_churros = tk.PhotoImage(file = "desserts-churros.png")
+d_flan = tk.PhotoImage(file = "desserts-flan.png")
+d_atoleElote = tk.PhotoImage(file = "desserts-atole de elote.png")
+d_quesitos = tk.PhotoImage(file = "desserts-quesoos.png")
+d_arrozLeche = tk.PhotoImage(file = "desserts-arrozLeche.png")
+d_arrozDulce = tk.PhotoImage(file = "desserts-arrozDulce.png")
+d_dulceLeche = tk.PhotoImage(file = "desserts-dulce leche.png")
+
 
 #ORDER BUTTONS
 o_credit = tk.PhotoImage(file = "orders-creditDebit.png")
