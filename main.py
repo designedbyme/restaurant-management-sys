@@ -6,7 +6,6 @@ from tkmacosx import Button
 from PIL import Image, ImageTk
 
 
-
 def host_hompage():
     host = tk.Toplevel(root)
     host.geometry("1488x945")
@@ -38,6 +37,7 @@ def host_hompage():
                          highlightthickness=0, takefocus=0, bd=0, 
                          command = lambda: [signInn(), host.withdraw()])
     tableButt.place(relx = 0.6, rely = 0.43)
+
 
 def waiter_hompage():
     waiter = tk.Toplevel(root)
@@ -75,8 +75,59 @@ def waiter_hompage():
                          image = home_ordersButt, 
                          bg="white", 
                          highlightthickness=0, takefocus=0, bd=0, 
-                         command = lambda: [signInn(), waiter.withdraw()])
+                         command = lambda: [orderHub(), waiter.withdraw()])
     orderButt.place(relx = 0.6, rely = 0.64)
+
+def menuHub():
+    menu = tk.Toplevel(root)
+    menu.geometry("1488x945")
+    s = tk.Label(menu, image=m_hub).pack()
+
+def orderHub():
+    order = tk.Toplevel(root)
+    order.geometry("1488x945")    
+    s = tk.Label(order, image=o_hub).pack()
+
+    bck = tk.Button(order, 
+                    image=o_prev,
+                    bg="#FF88A9", 
+                    highlightthickness=0, 
+                    takefocus=0, bd=0, 
+                    command = lambda: [job_select(), order.withdraw()])
+    bck.place(relx = 0.2, rely = 0.3)
+    nxt = tk.Button(order, 
+                    image=o_next ,
+                    bg="#FF88A9", 
+                    highlightthickness=0, 
+                    takefocus=0, bd=0,
+                    command = lambda: [job_select(), order.withdraw()])
+    nxt.place(relx = 0.4, rely = 0.3)
+
+
+    credit = tk.Button(order, 
+                       image=o_credit,
+                       bg="#FF88A9", 
+                       highlightthickness=0, 
+                       takefocus=0, bd=0, 
+                       command = lambda: [job_select(), order.withdraw()])
+    credit.place(relx = 0.6, rely = 0.3)
+
+    cash = tk.Button(order, 
+                     image=o_cash,
+                     bg="#FF88A9", 
+                     highlightthickness=0, 
+                     akefocus=0, bd=0, 
+                     command = lambda: [job_select(), order.withdraw()])
+    cash.place(relx = 0.6, rely = 0.5)
+
+    hold = tk.Button(order, 
+                     image=o_hold,
+                     bg="#FF88A9", 
+                     highlightthickness=0, 
+                     akefocus=0, bd=0, 
+                     command = lambda: [job_select(), order.withdraw()])
+    hold.place(relx = 0.6, rely = 0.7)
+    
 
 def signUp():
     signUpPage = tk.Toplevel(root)
@@ -198,27 +249,64 @@ root.after(200, lambda:[signInn(), root.withdraw()])
 # font=('Didot', 12)
 
 
-# app BACKGROUND
-start_host = tk.PhotoImage(file = "start_host.png")
-start_waiter = tk.PhotoImage(file = "start_waiter.png")
-
-start = tk.PhotoImage(file = "choose job.png")
+'''APP BACKGROUNDS'''
+#LOGIN/JOB SELECTOR
 s_l_page = tk.PhotoImage(file = "signup_login.png")
+start = tk.PhotoImage(file = "choose job.png")
 
+#HOST/WAITER HOMEPAGE
 host_homepage = tk.PhotoImage(file = "host_homepage.png")
 waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
 
-# some buttons
+#WAITER ORDER/MENU SCREENS
+host_homepage = tk.PhotoImage(file = "host_homepage.png")
+waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
+
+#WAITER: MENU
+m_hub = tk.PhotoImage(file = "menu-hubScreen.png")
+#WAITER: ORDERS
+o_hub = tk.PhotoImage(file = "orders screen.png")
+o_complete = tk.PhotoImage(file = "order confirmation screen.png")
+#WAITER: ORDERS: TIPS
+t_hub = tk.PhotoImage(file = "tips screen.png")
+
+
+'''APP BUTTONS'''
 backButt = tk.PhotoImage(file = "backButton.png")
+
+start_host = tk.PhotoImage(file = "start_host.png")
+start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
 signInButt = tk.PhotoImage(file = "sign in button.png")
 signUpButt = tk.PhotoImage(file = "sign up button.png")
 
-home_menuButt = tk.PhotoImage(file = "home-menuButt.png")
-home_ordersButt = tk.PhotoImage(file = "home-ordersButt.png")
+#HOMEPAGE BUTTONS
 home_signOutButt = tk.PhotoImage(file = "home-signOutButt.png")
 home_tableButt = tk.PhotoImage(file = "home-tableButt.png")
+home_menuButt = tk.PhotoImage(file = "home-menuButt.png")
+home_ordersButt = tk.PhotoImage(file = "home-ordersButt.png")
 
+#TABLE BUTTONS
+
+#MENU BUTTONS
+m_appetizer = tk.PhotoImage(file = "menu-appetizer-button.png")
+m_bev = tk.PhotoImage(file = "menu-beverage-button.png")
+m_courses = tk.PhotoImage(file = "menu-course-button.png")
+m_sides = tk.PhotoImage(file = "menu-side-button.png")
+#ORDER BUTTONS
+o_credit = tk.PhotoImage(file = "orders-creditDebit.png")
+o_cash = tk.PhotoImage(file = "orders-cash.png")
+o_hold = tk.PhotoImage(file = "orders-hold.png")
+o_next = tk.PhotoImage(file = "orders-orderNext.png")
+o_prev = tk.PhotoImage(file = "orders-orderPrev.png")
+#TIPS BUTTONS
+t_15 = tk.PhotoImage(file = "tips-15Tip.png")
+t_20 = tk.PhotoImage(file = "tips-20Tip.png")
+t_25 = tk.PhotoImage(file = "tips-25Tip.png")
+t_custom = tk.PhotoImage(file = "tips-customTip.png")
+t_none = tk.PhotoImage(file = "tips-noTip.png")
+tc_back = tk.PhotoImage(file = "tipscustom-backButt.png")
+tc_next = tk.PhotoImage(file = "tipscustom-nextButt.png")
 
 
 root.mainloop()
