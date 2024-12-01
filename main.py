@@ -270,11 +270,63 @@ def menus(typo):
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                             command = lambda: [menuHub(), menu.withdraw()])
         empQueso.place(relx = 0.73, rely = 0.5)
+    elif typo == "MAIN COURSES":
+        ceviche = tk.Button(foodFrame, 
+                            image = mc_ceviche, 
+                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [menuHub(), menu.withdraw()])
+        ceviche.place(relx = 0.03, rely = 0.05)
 
+        feijoada = tk.Button(foodFrame, 
+                             image = mc_friijoles, 
+                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                             command = lambda: [menuHub(), menu.withdraw()])
+        feijoada.place(relx = 0.25, rely = 0.05)
+
+        steakTakos = tk.Button(foodFrame,
+                               image = mc_steackTako, 
+                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                               command = lambda: [menuHub(), menu.withdraw()])
+        steakTakos.place(relx = 0.42, rely = 0.05)
+
+        pupusas = tk.Button(foodFrame,
+                            image = mc_pupusas, 
+                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [menuHub(), menu.withdraw()])
+        pupusas.place(relx = 0.625, rely = 0.05)
+
+        salvadorTamas = tk.Button(foodFrame,
+                                  image = mc_salvTamas, 
+                                  bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                                  command = lambda: [menuHub(), menu.withdraw()])
+        salvadorTamas.place(relx = 0.8, rely = 0.05)
+        
+        mofongo = tk.Button(foodFrame, 
+                            image = mc_mofongo, 
+                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                            command = lambda: [menuHub(), menu.withdraw()])
+        mofongo.place(relx = 0.1, rely = 0.5)
+
+        sopaDeRes = tk.Button(foodFrame,
+                              image = mc_sopaRes, 
+                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                              command = lambda: [menuHub(), menu.withdraw()])
+        sopaDeRes.place(relx = 0.3, rely = 0.5)
+
+        habichuelas = tk.Button(foodFrame,
+                                image = mc_habichuelasArroz, 
+                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [menuHub(), menu.withdraw()])
+        habichuelas.place(relx = 0.5, rely = 0.5)
+
+        tocino = tk.Button(foodFrame, 
+                           image = mc_tocinoArroz, 
+                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                           command = lambda: [menuHub(), menu.withdraw()])
+        tocino.place(relx = 0.7, rely = 0.5)
 
 
     '''   
-    elif typo == "MAIN COURSES":
     elif typo == "SIDES":
     elif typo == "DESSERTS":
     else:
@@ -570,6 +622,7 @@ root.after(200, lambda:[signInn(), root.withdraw()])
 # font=('Didot', 12)
 
 
+
 '''APP BACKGROUNDS'''
 #LOGIN/JOB SELECTOR
 s_l_page = tk.PhotoImage(file = "signup_login.png")
@@ -635,6 +688,16 @@ a_paoQueso = tk.PhotoImage(file = "appetizers-pao de queso.png")
 a_cheeseSticks = tk.PhotoImage(file = "appetizers-cheese sticks.png")
 a_empCarne = tk.PhotoImage(file = "appetizers-empCarne.png")
 a_empQueso = tk.PhotoImage(file = "appetizers-empQueso.png")
+#MENU: MAIN COURSES
+mc_ceviche = tk.PhotoImage(file = "mains-ceviche.png")
+mc_friijoles = tk.PhotoImage(file = "mains-frijolada.png")
+mc_steackTako = tk.PhotoImage(file = "mains-bisteak.png")
+mc_pupusas = tk.PhotoImage(file = "mains-pupusas.png")
+mc_salvTamas = tk.PhotoImage(file = "mains-SALAVADORtamas.png")
+mc_mofongo = tk.PhotoImage(file = "mains-mofongo.png")
+mc_sopaRes = tk.PhotoImage(file = "mains-sopaRez.png")
+mc_habichuelasArroz = tk.PhotoImage(file = "mains-habichuelaArroz.png")
+mc_tocinoArroz = tk.PhotoImage(file = "mains-tocinoArroz.png")
 
 
 #ORDER BUTTONS
