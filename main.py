@@ -324,10 +324,57 @@ def menus(typo):
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                            command = lambda: [menuHub(), menu.withdraw()])
         tocino.place(relx = 0.7, rely = 0.5)
+    elif typo == "SIDES":
+        friedPlatano = tk.Button(foodFrame, 
+                                 image = s_platano, 
+                                 bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                                 command = lambda: [menuHub(), menu.withdraw()])
+        friedPlatano.place(relx = 0.05, rely = 0.05)
+
+        tostones = tk.Button(foodFrame, 
+                             image = s_tostones, 
+                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                             command = lambda: [menuHub(), menu.withdraw()])
+        tostones.place(relx = 0.28, rely = 0.05)
+
+        chicharones = tk.Button(foodFrame,
+                                image = s_chicharones, 
+                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                                command = lambda: [menuHub(), menu.withdraw()])
+        chicharones.place(relx = 0.48, rely = 0.05)
+
+        beans = tk.Button(foodFrame,
+                          image = s_beans, 
+                          bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0,
+                          command = lambda: [menuHub(), menu.withdraw()])
+        beans.place(relx = 0.7, rely = 0.05)
+
+        whiteRice = tk.Button(foodFrame, 
+                              image = s_wRice, 
+                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                              command = lambda: [menuHub(), menu.withdraw()])
+        whiteRice.place(relx = 0.05, rely = 0.5)
+
+        mexicanSalad = tk.Button(foodFrame,
+                                 image = s_mCSalad, 
+                                 bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                                 command = lambda: [menuHub(), menu.withdraw()])
+        mexicanSalad.place(relx = 0.27, rely = 0.5)
+
+        farofa = tk.Button(foodFrame,
+                           image = s_farofa, 
+                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                           command = lambda: [menuHub(), menu.withdraw()])
+        farofa.place(relx = 0.48, rely = 0.5)
+
+        fries = tk.Button(foodFrame, 
+                          image = s_fries, 
+                          bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                          command = lambda: [menuHub(), menu.withdraw()])
+        fries.place(relx = 0.7, rely = 0.5)
 
 
     '''   
-    elif typo == "SIDES":
     elif typo == "DESSERTS":
     else:
         pass
@@ -698,7 +745,28 @@ mc_mofongo = tk.PhotoImage(file = "mains-mofongo.png")
 mc_sopaRes = tk.PhotoImage(file = "mains-sopaRez.png")
 mc_habichuelasArroz = tk.PhotoImage(file = "mains-habichuelaArroz.png")
 mc_tocinoArroz = tk.PhotoImage(file = "mains-tocinoArroz.png")
-
+#MENU: SIDES
+s_platano = tk.PhotoImage(file = "sides-fried platano.png")
+s_tostones = tk.PhotoImage(file = "sides-tostones.png")
+s_chicharones = tk.PhotoImage(file = "sides-chicharones.png")
+s_beans = tk.PhotoImage(file = "sides-beans.png")
+s_wRice = tk.PhotoImage(file = "sides-white rice.png")
+s_mCSalad = tk.PhotoImage(file = "sides-mexican salda.png")
+s_farofa = tk.PhotoImage(file = "sides-farofa.png")
+s_fries = tk.PhotoImage(file = "sides-fries.png")
+#MENU: DESSERTS
+''' 
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+d_ = tk.PhotoImage(file = "")
+'''
 
 #ORDER BUTTONS
 o_credit = tk.PhotoImage(file = "orders-creditDebit.png")
