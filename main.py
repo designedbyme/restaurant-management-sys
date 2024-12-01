@@ -223,54 +223,53 @@ def menus(typo):
                             command = lambda: [menuHub(), menu.withdraw()])
         icedTea.place(relx = 0.75, rely = 0.5)
     elif typo == "APPETIZERS":
-        coke = tk.Button(foodFrame, 
-                          image = d_coke, 
+        chipsWGuac = tk.Button(foodFrame, 
+                          image = a_chips, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                           command = lambda: [menuHub(), menu.withdraw()])
-        coke.place(relx = 0.05, rely = 0.05)
+        chipsWGuac.place(relx = 0.075, rely = 0.05)
 
-        mangoSmoothie = tk.Button(foodFrame, 
-                                  image = d_mango, 
+        tamales = tk.Button(foodFrame, 
+                                  image = a_tamales, 
                                   bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                                   command = lambda: [menuHub(), menu.withdraw()])
-        mangoSmoothie.place(relx = 0.225, rely = 0.05)
+        tamales.place(relx = 0.3, rely = 0.05)
 
-        water = tk.Button(foodFrame, 
-                          image = d_water, 
+        coxhinas = tk.Button(foodFrame, 
+                          image = a_coxhinas, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                           command = lambda: [menuHub(), menu.withdraw()])
-        water.place(relx = 0.4, rely = 0.05)
+        coxhinas.place(relx = 0.53, rely = 0.075)
 
-        incaCola = tk.Button(foodFrame, 
-                             image = d_inca, 
+        humita = tk.Button(foodFrame, 
+                             image = a_humita, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                              command = lambda: [menuHub(), menu.withdraw()])
-        incaCola.place(relx = 0.55, rely = 0.05)
+        humita.place(relx = 0.73, rely = 0.15)
 
-        morocho = tk.Button(foodFrame, 
-                            image = d_morocho, 
+        paoQueso = tk.Button(foodFrame, 
+                            image = a_paoQueso, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                             command = lambda: [menuHub(), menu.withdraw()])
-        morocho.place(relx = 0.75, rely = 0.05)
+        paoQueso.place(relx = 0.075, rely = 0.5)
         
-        sprite = tk.Button(foodFrame, 
-                           image = d_sprite, 
+        cheeseSticks = tk.Button(foodFrame, 
+                           image = a_cheeseSticks, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                            command = lambda: [menuHub(), menu.withdraw()])
-        sprite.place(relx = 0.075, rely = 0.5)
+        cheeseSticks.place(relx = 0.3, rely = 0.5)
 
-        strawberrySmoothie = tk.Button(foodFrame, 
-                                        image = d_strawberry, 
+        empCarne = tk.Button(foodFrame, 
+                                        image = a_empCarne, 
                                         bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                                         command = lambda: [menuHub(), menu.withdraw()])
-        strawberrySmoothie.place(relx = 0.22, rely = 0.5)
+        empCarne.place(relx = 0.5, rely = 0.5)
 
-        fanta = tk.Button(foodFrame, 
-                            image = d_fanta, 
+        empQueso = tk.Button(foodFrame, 
+                            image = a_empQueso, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
                             command = lambda: [menuHub(), menu.withdraw()])
-        fanta.place(relx = 0.4, rely = 0.5)
-
+        empQueso.place(relx = 0.73, rely = 0.5)
 
 
 
@@ -627,6 +626,16 @@ d_strawberry = tk.PhotoImage(file = "drinks-strawberyy.png")
 d_fanta = tk.PhotoImage(file = "drinks-fanta.png")
 d_chicha = tk.PhotoImage(file = "drinks-chichi.png")
 d_tea = tk.PhotoImage(file = "drinks-iced tea.png")
+#MENU: APPETIZERS
+a_chips = tk.PhotoImage(file = "appetizers-nachos.png")
+a_tamales = tk.PhotoImage(file = "appetizers-tamales.png")
+a_coxhinas = tk.PhotoImage(file = "appetizers-coxinhas.png")
+a_humita = tk.PhotoImage(file = "appetizers-homus.png")
+a_paoQueso = tk.PhotoImage(file = "appetizers-pao de queso.png")
+a_cheeseSticks = tk.PhotoImage(file = "appetizers-cheese sticks.png")
+a_empCarne = tk.PhotoImage(file = "appetizers-empCarne.png")
+a_empQueso = tk.PhotoImage(file = "appetizers-empQueso.png")
+
 
 #ORDER BUTTONS
 o_credit = tk.PhotoImage(file = "orders-creditDebit.png")
