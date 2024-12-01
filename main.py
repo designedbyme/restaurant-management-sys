@@ -6,6 +6,164 @@ import tkinter.ttk as ttk
 from tkmacosx import Button
 from PIL import Image, ImageTk
 
+def boss_hompage():
+    boss = tk.Toplevel(root)
+    boss.geometry("1488x945")
+    s = tk.Label(boss, image=b_hub).pack()
+
+    header = tk.Label(boss, 
+                      text="BOSS",
+                      font=('Didot', 48), 
+                      bg="#ED3266", fg="white")
+    header.place(relx = 0.44, rely = 0.01)
+
+    signoutButton = tk.Button(boss, 
+                              image = b_signOut, 
+                              bg="white", 
+                              highlightthickness=0, takefocus=0, bd=0, 
+                              command = lambda: [signInn(), boss.withdraw()])
+    signoutButton.place(relx = 0.75, rely = 0.85)
+
+    rev = tk.Button(boss, 
+                        image = b_revenue, 
+                        bg="white", 
+                        highlightthickness=0, takefocus=0, bd=0, 
+                        command = lambda: [revenue(), boss.withdraw()])
+    rev.place(relx = 0.1, rely = 0.2)
+
+    newAccount = tk.Button(boss, 
+                           image = b_createAccount, 
+                           bg="white", 
+                           highlightthickness=0, takefocus=0, bd=0, 
+                           command = lambda: [signUp(), boss.withdraw()])
+    newAccount.place(relx = 0.55, rely = 0.2)
+
+    passReset = tk.Button(boss, 
+                          image = b_resetPass, 
+                          bg="white", 
+                          highlightthickness=0, takefocus=0, bd=0, 
+                          command = lambda: [changePassword(), boss.withdraw()])
+    passReset.place(relx = 0.1, rely = 0.6)
+
+def revenue():
+    boss = tk.Toplevel(root)
+    boss.geometry("1488x945")
+    s = tk.Label(boss, image=b_hub).pack()
+
+    back_button = tk.Button(boss, 
+                            image=backButt, 
+                            bg="#FEB5C9", 
+                            highlightthickness = 0, bd = 0, 
+                            command= lambda: [boss_hompage(), boss.withdraw()])
+    back_button.place(relx=0.06, rely=0.07, anchor= 'center')
+
+    header = tk.Label(boss, 
+                      text="REVENUE",
+                      font=('Didot', 48), 
+                      bg="#ED3266", fg="white")
+    header.place(relx = 0.4, rely = 0.01)
+
+    canva = tk.Canvas(boss, 
+                       bg="white",
+                       width=1276, height=737,
+                       highlightthickness=0)
+    canva.place(x = 106, y = 132)
+
+    canva.create_text(550, 50, 
+                       text="Summary", 
+                       font=("Didot", 36), 
+                       anchor='nw', 
+                       fill="black")
+    canva.create_text(250, 250, 
+                       text="Total\nRevenue", 
+                       font=("Didot", 30), 
+                       anchor='nw', 
+                       fill="black")
+
+def signUp():
+    signUpPage = tk.Toplevel(root)
+    signUpPage.geometry("1488x945")
+    
+    s = tk.Label(signUpPage, image=s_l_page).pack()
+    
+    sign_up = tk.Label(signUpPage, text="Sign Up", font=('Didot', 48),fg="black",bg="white")
+    sign_up.place(relx = 0.43, rely = 0.249)
+
+    fname = tk.Label(signUpPage, text="Full Name:", font=('Didot', 32),fg="black",bg="white")
+    fname.place(relx = 0.3, rely = 0.4)
+
+    email = tk.Label(signUpPage, text="Email:", font=('Didot', 32),fg="black",bg="white")
+    email.place(relx = 0.345, rely = 0.5)
+    
+    password = tk.Label(signUpPage, text="Password:", font=('Didot', 32),fg="black",bg="white")
+    password.place(relx = 0.31, rely = 0.6)
+
+
+    back_button = tk.Button(signUpPage,
+                            image=backButt,
+                            bg="#FFE2EA", highlightthickness = 0, bd = 0, 
+                            command=lambda: [boss_hompage(), signUpPage.withdraw()])
+    back_button.place(relx=0.05, rely=0.05, anchor= 'center')
+    
+    name = tk.Entry(signUpPage, 
+                    width = 22, 
+                    font=("Inria Sans", 25),
+                    fg="#FF88A9",bg="#FFE2EA",
+                    highlightthickness = 0, bd = 0)
+    name.place(relx = 0.435, rely = 0.41)
+    
+    email = tk.Entry(signUpPage,
+                     width = 22, 
+                     font=("Inria Sans", 25),
+                     fg="#FF88A9",bg="#FFE2EA",
+                     highlightthickness = 0, bd = 0)
+    email.place(relx = 0.435, rely = 0.51)
+    
+    pw = tk.Entry(signUpPage,
+                  width = 22,
+                  font=("Inria Sans", 25),
+                  fg="#FF88A9",bg="#FFE2EA",
+                  highlightthickness = 0, bd = 0)
+    pw.place(relx = 0.435, rely = 0.61)
+         
+    sUp = tk.Button(signUpPage, image = signUpButt, bg="#FFFFFF", highlightthickness=0, bd=0)
+    sUp.place(relx = 0.38, rely = 0.7)
+
+def changePassword():
+    boss = tk.Toplevel(root)
+    boss.geometry("1488x945")
+    s = tk.Label(boss, image=b_hub).pack()
+
+    back_button = tk.Button(boss, 
+                            image=backButt, 
+                            bg="#FEB5C9", 
+                            highlightthickness = 0, bd = 0, 
+                            command= lambda: [boss_hompage(), boss.withdraw()])
+    back_button.place(relx=0.06, rely=0.07, anchor= 'center')
+
+    header = tk.Label(boss, 
+                      text="PASSWORD RESET",
+                      font=('Didot', 48), 
+                      bg="#ED3266", fg="white")
+    header.place(relx = 0.33, rely = 0.01)
+
+    canva = tk.Canvas(boss, 
+                       bg="white",
+                       width=820, height=675,
+                       highlightthickness=0)
+    canva.place(x = 334, y = 172)
+
+    canva.create_text(550, 50, 
+                       text="Summary", 
+                       font=("Didot", 36), 
+                       anchor='nw', 
+                       fill="black")
+    canva.create_text(250, 250, 
+                       text="Total\nRevenue", 
+                       font=("Didot", 30), 
+                       anchor='nw', 
+                       fill="black")
+
 
 def host_hompage():
     host = tk.Toplevel(root)
@@ -740,52 +898,6 @@ def purchaseComplete():
     tips.after(500, lambda:[orderHub(), tips.withdraw()])
 
 
-def signUp():
-    signUpPage = tk.Toplevel(root)
-    signUpPage.geometry("1488x945")
-    
-    s = tk.Label(signUpPage, image=s_l_page).pack()
-    
-    sign_up = tk.Label(signUpPage, text="Sign Up", font=('Didot', 48),fg="black",bg="white")
-    sign_up.place(relx = 0.43, rely = 0.249)
-
-    fname = tk.Label(signUpPage, text="Full Name:", font=('Didot', 32),fg="black",bg="white")
-    fname.place(relx = 0.3, rely = 0.4)
-
-    email = tk.Label(signUpPage, text="Email:", font=('Didot', 32),fg="black",bg="white")
-    email.place(relx = 0.345, rely = 0.5)
-    
-    password = tk.Label(signUpPage, text="Password:", font=('Didot', 32),fg="black",bg="white")
-    password.place(relx = 0.31, rely = 0.6)
-
-
-    back_button = tk.Button(signUpPage, image=backButt, bg="#FFE2EA", highlightthickness = 0, bd = 0, command=signUpPage.withdraw)
-    back_button.place(relx=0.05, rely=0.05, anchor= 'center')
-    
-    name = tk.Entry(signUpPage, 
-                    width = 22, 
-                    font=("Inria Sans", 25),
-                    fg="#FF88A9",bg="#FFE2EA",
-                    highlightthickness = 0, bd = 0)
-    name.place(relx = 0.435, rely = 0.41)
-    
-    email = tk.Entry(signUpPage,
-                     width = 22, 
-                     font=("Inria Sans", 25),
-                     fg="#FF88A9",bg="#FFE2EA",
-                     highlightthickness = 0, bd = 0)
-    email.place(relx = 0.435, rely = 0.51)
-    
-    pw = tk.Entry(signUpPage,
-                  width = 22,
-                  font=("Inria Sans", 25),
-                  fg="#FF88A9",bg="#FFE2EA",
-                  highlightthickness = 0, bd = 0)
-    pw.place(relx = 0.435, rely = 0.61)
-         
-    sUp = tk.Button(signUpPage, image = signUpButt, bg="#FFFFFF", highlightthickness=0, bd=0)
-    sUp.place(relx = 0.38, rely = 0.7)
-
 def job_select():
     ss = tk.Toplevel(root)
     ss.geometry("1488x945")
@@ -832,14 +944,6 @@ def signInn():
                   fg="black",bg="white")
     pw.place(relx = 0.368, rely = 0.65)
     
-    signUpButton = Button(Start, 
-                          text = "Sign Up", 
-                          font=("Inter", 10, "underline"), 
-                          bg="white", fg="black", 
-                          borderwidth=0, highlightthickness=0, bd=0, 
-                          command = lambda: [signUp(), Start.withdraw()])
-    signUpButton.place(relx = 0.368, rely = 0.75)
-    
     logIn = tk.Button(Start, 
                    image = signInButt, 
                    bg="white", 
@@ -881,6 +985,9 @@ o_complete = tk.PhotoImage(file = "order confirmation screen.png")
 #WAITER: ORDERS: TIPS
 tip_hub = tk.PhotoImage(file = "tips screen.png")
 
+#BOSS PAGE
+b_hub = tk.PhotoImage(file = "boss screen.png")
+
 
 '''APP BUTTONS'''
 backButt = tk.PhotoImage(file = "backButton.png")
@@ -917,6 +1024,7 @@ t_16 = tk.PhotoImage(file = "table-16.png")
 t_17 = tk.PhotoImage(file = "table-17.png")
 t_next = tk.PhotoImage(file = "table-next.png")
 t_back = tk.PhotoImage(file = "table-back.png")
+
 
 #MENU BUTTONS
 m_bev = tk.PhotoImage(file = "menu-beverage-button.png")
@@ -990,6 +1098,16 @@ t_custom = tk.PhotoImage(file = "tips-customTip.png")
 t_none = tk.PhotoImage(file = "tips-noTip.png")
 tc_back = tk.PhotoImage(file = "tipscustom-backButt.png")
 tc_next = tk.PhotoImage(file = "tipscustom-nextButt.png")
+
+
+#BUSS BUTTONS
+b_revenue = tk.PhotoImage(file = "boss-revenue.png")
+b_createAccount = tk.PhotoImage(file = "boss-new account.png")
+b_resetPass = tk.PhotoImage(file = "boss-passReset.png")
+b_signOut = tk.PhotoImage(file = "boss-signnOut.png")
+
+pw_reset = tk.PhotoImage(file = "boss-resetButt.png")
+
 
 page_one = True
 root.mainloop()
