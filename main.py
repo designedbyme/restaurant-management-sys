@@ -944,6 +944,8 @@ def signInn():
                   fg="black",bg="white")
     pw.place(relx = 0.368, rely = 0.65)
     
+    
+
     logIn = tk.Button(Start, 
                    image = signInButt, 
                    bg="white", 
@@ -1111,3 +1113,4 @@ pw_reset = tk.PhotoImage(file = "boss-resetButt.png")
 
 page_one = True
 root.mainloop()
+#finished GUI at 4:57
