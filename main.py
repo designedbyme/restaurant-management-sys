@@ -316,13 +316,13 @@ def tables():
         peep = sqlite3.connect("z_tables.db")
         purp = peep.cursor()
         purp.execute("SELECT available FROM tables WHERE table_number = ?", (tableNumbers,))
-
+        
         item = purp.fetchone()
 
         info = tk.Label(overlayer,
                         text=f"{item[0]}:\nTable {tableNumbers}\n\nDo you wish to toggle?",
                         font=('Didot', 48),
-                        bg ="#FFE2EA", fg = "white")
+                        bg ="#FFE2EA", fg = "black")
                         
         info.place(relx=0.225, rely=0.15)
 
@@ -936,11 +936,13 @@ def orderHub():
                 sexysexyOrder = len(listofOrders)-1
         
         title = f"Table{sexysexyOrderNum}.txt"
-
-        """with open(f"{title}", "r", newline='') as file:
+        orderInfo = []
+        with open(f"{title}", "r", newline='') as file:
             start = csv.reader(file)
             for rows in range[1:]:
-                """
+                orderInfo.append(rows)
+                print(orderInfo)
+
             
                 
                 
