@@ -44,8 +44,24 @@ def new_order(number):
 
     file_path = f"{title}.txt"
 
+    poll = []
+
     if os.path.exists(file_path):
         print("already Exists")
+        with open (f"orders.txt", "r") as f:
+            data=f.readlines()
+            datall =  data[0].split()
+            print(datall)
+            for info in datall:
+                if info != str(number):
+                    poll.append(info)
+                    print(poll)
+        with open (f"{title}.txt", "w") as f:
+            writing = csv.writer(f)
+            writing.writerow(poll)
+            
+
+
     else:
         passReveal = open(f"{title}.txt", "w")
         passReveal.write(f"{time}\n")
@@ -66,7 +82,6 @@ def new_order(number):
 
 def update_order(tableNum, itemNum, quant):
     titke = f"Table{tableNum}.txt"
-    print(titke)
     conn = sqlite3.connect("z_items.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM items WHERE item_id = ?", (itemNum,))
@@ -583,8 +598,7 @@ def menus(typo):
         clicked.set( "--" ) 
         
         # Create Dropdown menu 
-        drop = tk.OptionMenu(overlayer , 
-                             clicked , *listofOrders)
+        drop = tk.OptionMenu(overlayer , clicked , *listofOrders)
         drop.config(font=("Didot", 48), bg ="#FFE2EA", fg = "black")
         drop.place(relx=0.55, rely=0.15)
 
@@ -735,7 +749,7 @@ def menus(typo):
         feijoada = tk.Button(foodFrame, 
                              image = mc_friijoles, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [whenClicked(2)] )
+                             command = lambda: [whenClicked(20)] )
         feijoada.place(relx = 0.25, rely = 0.05)
 
         steakTakos = tk.Button(foodFrame,
@@ -898,6 +912,8 @@ def orderHub():
     v = tk.StringVar()
     v.set(f"Table {sexysexyOrderNum}'s Order:")
 
+    items = tk.StringVar()
+
     def changeOrder(up):
         global sexysexyOrderNum
         global sexysexyOrder
@@ -918,6 +934,39 @@ def orderHub():
             
             if sexysexyOrder < 0:
                 sexysexyOrder = len(listofOrders)-1
+        
+        title = f"Table{sexysexyOrderNum}.txt"
+
+        """with open(f"{title}", "r", newline='') as file:
+            start = csv.reader(file)
+            for rows in range[1:]:
+                """
+            
+                
+                
+                
+        """
+        
+        conn = sqlite3.connect("z_items.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM items WHERE item_id = ?", (itemNum,))
+
+
+    
+        result = cursor.fetchone()
+
+        
+
+        total = result[3]*quant
+
+        '''newInfo = [ sexysexyOrderNum, itemNum, quant, total ]'''
+
+        with open(f"{titke}", "a", newline='') as file:
+            start = csv.writer(file)
+            start.writerow(newInfo)
+
+        
+        items.set(f"Table {sexysexyOrderNum}'s Order:")"""
     # sexysexyOrderNum
     back_button = tk.Button(order, 
                             image=backButt, 
@@ -958,18 +1007,7 @@ def orderHub():
     vbar.place(relx = 0.463, rely = 0.145, relheight=0.789)
 
     canvas.configure(yscrollcommand=vbar.set)
-
-
-    '''
-      vun = sqlite3.connect("z_items.db")
-    cursor = vun.cursor()
-    cursor.execute("SELECT * FROM items WHERE item_id = ?", (itemNum,))
     
-    item = cursor.fetchone()
-    
-    total = item[3]*quant
-    newInfo = [ tableNum, itemNum, quant, total ]
-    '''
 
     canvas.create_text(50, 50, 
                        text="ITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\n", 
@@ -1353,8 +1391,10 @@ for row in grades_reader:
     listofOrders = row.split()
 
 print(listofOrders, len(listofOrders))
-
-sexysexyOrderNum = listofOrders[0]
-sexysexyOrder = 0
+try:
+    sexysexyOrderNum = listofOrders[0]
+    sexysexyOrder = 0
+except:
+    print("file is empty")
 root.mainloop()
 #finished GUI at 4:57
