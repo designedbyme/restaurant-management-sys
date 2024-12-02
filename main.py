@@ -1,10 +1,97 @@
+import sqlite3
 import csv
 import os
+from datetime import *
+from pytz import *
 import tkinter as tk
 import tkinter.ttk as ttk
 #import tkmacosx as tmacc
-from tkmacosx import Button
+#from tkmacosx import Button
 from PIL import Image, ImageTk
+
+def new_id():
+    conn = sqlite3.connect("z_employees.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT emp_id FROM employees ORDER BY emp_id DESC LIMIT 1")
+    
+    student = cursor.fetchone()
+    number = student[0]
+    newid = int(number) + 1
+    
+    return newid
+
+def update_table(number):
+    #check availability
+    check = sqlite3.connect("z_tables.db")
+    cursor = check.cursor()
+    cursor.execute("SELECT available FROM tables WHERE table_number = ?", (number,))
+
+    item = cursor.fetchone()
+
+    update = sqlite3.connect("z_tables.db")
+    uCursor = update.cursor()
+    if item[0] == "AVAILABLE":
+        uCursor.execute("UPDATE tables SET available = ? WHERE table_number = ?", ("UNAVAILABLE", number,))
+    else:
+        uCursor.execute("UPDATE tables SET available = ? WHERE table_number = ?", ("AVAILABLE", number,))
+    update.commit()
+    update.close()
+
+def new_order(number):
+    title = "Table" + str(number)
+    timeZone = datetime.now(timezone("America/New_York"))
+    time = timeZone.strftime("%I:%M %p")
+
+    file_path = f"{title}.txt"
+
+    if os.path.exists(file_path):
+        print("already Exists")
+    else:
+        passReveal = open(f"{title}.txt", "w")
+        passReveal.write(f"{time}\n")
+        passReveal.close()
+
+        global listofOrders
+        listofOrders = []
+        grades_reader=open('orders.txt', 'r')
+        for row in grades_reader:
+            listofOrders = row.split()
+
+        print(listofOrders)
+
+    with open("orders.txt", "r", newline='') as f:
+        if str(number) not in f: 
+            with open("orders.txt", "a", newline='') as fr:
+                fr.write(f"{number} ")  
+
+def update_order(tableNum, itemNum, quant):
+    titke = f"Table{tableNum}.txt"
+    print(titke)
+    conn = sqlite3.connect("z_items.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM items WHERE item_id = ?", (itemNum,))
+    
+    item = cursor.fetchone()
+    
+    total = item[3]*quant
+    newInfo = [ tableNum, itemNum, quant, total ]
+
+    with open(f"{titke}", "a", newline='') as file:
+        start = csv.writer(file)
+        start.writerow(newInfo)
+
+def finishing_order(tableNum, debitOrCash):
+    if debitOrCash == 1:
+        newInfo = [ "Credit/Debit" ]
+    else:
+        newInfo = [ "Cash" ]
+
+    with open(f"Table {tableNum}.txt", "a", newline='') as file:
+        start = csv.writer(file)
+        start.writerow(newInfo)
+        pass
+
+
 
 def boss_hompage():
     boss = tk.Toplevel(root)
@@ -37,13 +124,6 @@ def boss_hompage():
                            highlightthickness=0, takefocus=0, bd=0, 
                            command = lambda: [signUp(), boss.withdraw()])
     newAccount.place(relx = 0.55, rely = 0.2)
-
-    passReset = tk.Button(boss, 
-                          image = b_resetPass, 
-                          bg="white", 
-                          highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [changePassword(), boss.withdraw()])
-    passReset.place(relx = 0.1, rely = 0.6)
 
 def revenue():
     boss = tk.Toplevel(root)
@@ -119,50 +199,47 @@ def signUp():
                      highlightthickness = 0, bd = 0)
     email.place(relx = 0.435, rely = 0.51)
     
-    pw = tk.Entry(signUpPage,
+    peew = tk.Entry(signUpPage,
                   width = 22,
                   font=("Inria Sans", 25),
                   fg="#FF88A9",bg="#FFE2EA",
                   highlightthickness = 0, bd = 0)
-    pw.place(relx = 0.435, rely = 0.61)
-         
-    sUp = tk.Button(signUpPage, image = signUpButt, bg="#FFFFFF", highlightthickness=0, bd=0)
+    peew.place(relx = 0.435, rely = 0.61)
+    
+    def adding():
+        empId = new_id()
+        my_list = name.get().split()
+        first = my_list[0]
+        last = my_list[1]
+        emmy = email.get()
+        user = first+last[0]+str(empId)
+        passer = peew.get()
+
+        datas = (empId, first, last, emmy, user, passer, 15.0)
+
+        conn = sqlite3.connect("z_employees.db")
+        cursor = conn.cursor()
+        cursor.executemany("""
+                        INSERT OR IGNORE INTO employees (emp_id, f_name, l_name, email, username, password, wage) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?)""", 
+                        [datas
+                        ])
+        conn.commit()
+        conn.close()
+
+        completion = tk.Frame(signUpPage,  
+                              bg ="black",
+                              highlightbackground="#FF88A9", highlightthickness=2)
+        completion.place(relx = 0.3, rely = 0.3)
+        comp = tk.Label(completion,
+                        image=b_signUpComplete)
+        comp.pack()
+        signUpPage.after(750, lambda: [completion.destroy(), boss_hompage(), signUpPage.withdraw()])
+
+
+    sUp = tk.Button(signUpPage, image = signUpButt, bg="#FFFFFF", highlightthickness=0, bd=0,
+                    command=adding)
     sUp.place(relx = 0.38, rely = 0.7)
-
-def changePassword():
-    boss = tk.Toplevel(root)
-    boss.geometry("1488x945")
-    s = tk.Label(boss, image=b_hub).pack()
-
-    back_button = tk.Button(boss, 
-                            image=backButt, 
-                            bg="#FEB5C9", 
-                            highlightthickness = 0, bd = 0, 
-                            command= lambda: [boss_hompage(), boss.withdraw()])
-    back_button.place(relx=0.06, rely=0.07, anchor= 'center')
-
-    header = tk.Label(boss, 
-                      text="PASSWORD RESET",
-                      font=('Didot', 48), 
-                      bg="#ED3266", fg="white")
-    header.place(relx = 0.33, rely = 0.01)
-
-    canva = tk.Canvas(boss, 
-                       bg="white",
-                       width=820, height=675,
-                       highlightthickness=0)
-    canva.place(x = 334, y = 172)
-
-    canva.create_text(550, 50, 
-                       text="Summary", 
-                       font=("Didot", 36), 
-                       anchor='nw', 
-                       fill="black")
-    canva.create_text(250, 250, 
-                       text="Total\nRevenue", 
-                       font=("Didot", 30), 
-                       anchor='nw', 
-                       fill="black")
 
 
 def host_hompage():
@@ -171,7 +248,7 @@ def host_hompage():
     s = tk.Label(host, image=host_homepage).pack()
 
     header = tk.Label(host, 
-                      text=f"Welcome, EASYUSER",
+                      text=f"Welcome, {sexyUserFName}",
                       font=("Inter", 30, "bold"), 
                       bg="white", fg="black")
     header.place(relx = 0.1, rely = 0.22)
@@ -213,6 +290,41 @@ def tables():
                           height=802, width=1488)
     tableFrame.place(relx = 0, rely = 0.14)
 
+    def whenClicked(tableNumbers):
+        print(tableNumbers)
+        overlayer = tk.Frame(tables,  
+                          bg ="#FEB5C9"
+                          )
+        overlayer.place(relx = 0.2, rely = 0.2)
+        ss = tk.Label(overlayer, image=t_edit).pack()
+
+        peep = sqlite3.connect("z_tables.db")
+        purp = peep.cursor()
+        purp.execute("SELECT available FROM tables WHERE table_number = ?", (tableNumbers,))
+
+        item = purp.fetchone()
+
+        info = tk.Label(overlayer,
+                        text=f"{item[0]}:\nTable {tableNumbers}\n\nDo you wish to toggle?",
+                        font=('Didot', 48),
+                        bg ="#FFE2EA", fg = "white")
+                        
+        info.place(relx=0.225, rely=0.15)
+
+        yes = tk.Button(overlayer,
+                        image=t_yes,
+                        bg ="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                        command = lambda: [new_order(tableNumbers), overlayer.destroy()])
+        yes.place(relx=0.4, rely=0.55)
+        
+        no = tk.Button(overlayer,
+                        image=t_no,
+                        bg ="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                        command = lambda: [overlayer.destroy(), update_table(tableNumbers)] )                 
+        no.place(relx=0.4, rely=0.7)
+
+
+
     def changePage():
         global page_one
         if page_one:
@@ -222,79 +334,79 @@ def tables():
             table1 = tk.Button(tableFrame, 
                             image = t_1, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(1), update_table(1)] )
             table1.place(relx = 0.03, rely = 0)
 
             table2 = tk.Button(tableFrame, 
                             image = t_2, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(2), update_table(2)] )
             table2.place(relx = 0.21, rely = 0)
 
             table3 = tk.Button(tableFrame, 
                             image = t_3, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(3), update_table(3)] )
             table3.place(relx = 0.39, rely = 0)
 
             table4 = tk.Button(tableFrame, 
                             image = t_4, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(4), update_table(4)] )
             table4.place(relx = 0.57, rely = 0)
 
             table5 = tk.Button(tableFrame, 
                             image = t_5, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(5), update_table(5)] )
             table5.place(relx = 0.75, rely = 0)
 
             table6 = tk.Button(tableFrame, 
                             image = t_6, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(6), update_table(6)] )
             table6.place(relx = 0.03, rely = 0.3)
 
             table7 = tk.Button(tableFrame, 
                             image = t_7, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(7), update_table(7)] )
             table7.place(relx = 0.21, rely = 0.3)
 
             table8 = tk.Button(tableFrame, 
                             image = t_8, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(8), update_table(8)] )
             table8.place(relx = 0.39, rely = 0.3)
 
             table9 = tk.Button(tableFrame, 
                             image = t_9, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(9), update_table(9)] )
             table9.place(relx = 0.57, rely = 0.3)
 
             table10 = tk.Button(tableFrame, 
                             image = t_10, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(10), update_table(10)] )
             table10.place(relx = 0.75, rely = 0.3)
 
             table11 = tk.Button(tableFrame, 
                             image = t_11, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(11), update_table(11)] )
             table11.place(relx = 0.09, rely = 0.6)
 
             table12 = tk.Button(tableFrame, 
                             image = t_12, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(12), update_table(12)] )
             table12.place(relx = 0.34, rely = 0.6)
 
             table13 = tk.Button(tableFrame, 
                             image = t_13, 
                             bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [host_hompage(), tables.withdraw()])
+                            command = lambda: [whenClicked(13), update_table(13)] )
             table13.place(relx = 0.6, rely = 0.6)
 
 
@@ -312,25 +424,25 @@ def tables():
             table14 = tk.Button(tableFrame, 
                                 image = t_14, 
                                 bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [host_hompage(), tables.withdraw()])
+                                command = lambda: [whenClicked(14), update_table(14)] )
             table14.place(relx = 0.075, rely = 0)
 
             table15 = tk.Button(tableFrame, 
                                 image = t_15, 
                                 bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [host_hompage(), tables.withdraw()])
+                                command = lambda: [whenClicked(15), update_table(15)] )
             table15.place(relx = 0.5, rely = 0)
 
             table16 = tk.Button(tableFrame, 
                                 image = t_16, 
                                 bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [host_hompage(), tables.withdraw()])
+                                command = lambda: [whenClicked(16), update_table(16)] )
             table16.place(relx = 0.075, rely = 0.5)
 
             table17 = tk.Button(tableFrame, 
                                 image = t_17, 
                                 bg="#FEB5C9", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [host_hompage(), tables.withdraw()])
+                                command = lambda: [whenClicked(17), update_table(17)] )
             table17.place(relx = 0.5, rely = 0.5)
 
             backP = tk.Button(tableFrame, 
@@ -350,7 +462,7 @@ def waiter_hompage():
     s = tk.Label(waiter, image=waiter_homepage).pack()
 
     header = tk.Label(waiter, 
-                      text=f"Welcome, EASYUSER",
+                      text=f"Welcome, {sexyUserFName}",
                       font=("Inter", 30, "bold"), 
                       bg="white", fg="black")
     header.place(relx = 0.1, rely = 0.22)
@@ -398,6 +510,7 @@ def menuHub():
                       font=('American Typewriter', 55),
                       bg="#CC5576", fg="black")
     header.place(relx = 0.42, rely = 0.04)
+
 
     beverages = tk.Button(menu, 
                           image = m_bev, 
@@ -451,6 +564,54 @@ def menus(typo):
                       bg="#CC5576", fg="black")
     header.place(relx = 0.35, rely = 0.04)
 
+    def whenClicked(itemNum):
+        overlayer = tk.Frame(menu,  
+                          bg ="#FEB5C9"
+                          )
+        overlayer.place(relx = 0.2, rely = 0.2)
+        ss = tk.Label(overlayer, image=t_edit).pack()
+
+        info = tk.Label(overlayer,
+                        text=f"Add to Order          :",
+                        font=('Didot', 48),
+                        bg ="#FFE2EA", fg = "white")                
+        info.place(relx=0.225, rely=0.15)
+
+        clicked = tk.StringVar() 
+        
+        # initial menu text 
+        clicked.set( "--" ) 
+        
+        # Create Dropdown menu 
+        drop = tk.OptionMenu(overlayer , 
+                             clicked , *listofOrders)
+        drop.config(font=("Didot", 48), bg ="#FFE2EA", fg = "black")
+        drop.place(relx=0.55, rely=0.15)
+
+        q = tk.Label(overlayer,
+                        text=f"Quantity:",
+                        font=('Didot', 48),
+                        bg ="#FFE2EA", fg = "white")                
+        q.place(relx=0.2, rely=0.25)
+        quant = tk.Entry(overlayer, 
+                    width = 10, 
+                    font=("Inria Sans", 25), 
+                    fg="black",bg="white")
+        quant.place(relx = 0.425, rely = 0.275)
+
+        yes = tk.Button(overlayer,
+                        image=t_yes,
+                        bg ="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                        command = lambda: [update_order(int(clicked.get()), itemNum, int(quant.get())), overlayer.destroy()])
+        yes.place(relx=0.4, rely=0.55)
+        
+        no = tk.Button(overlayer,
+                        image=t_no,
+                        bg ="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
+                        command = lambda: [overlayer.destroy()] )                 
+        no.place(relx=0.4, rely=0.7)
+
+
     foodFrame = tk.Frame(menu,  
                          bg ="#FFE2EA",
                          height=802, width=1488)
@@ -460,273 +621,272 @@ def menus(typo):
         coke = tk.Button(foodFrame, 
                           image = d_coke, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(1)] )
         coke.place(relx = 0.05, rely = 0.05)
 
         mangoSmoothie = tk.Button(foodFrame, 
                                   image = d_mango, 
                                   bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                  command = lambda: [menuHub(), menu.withdraw()])
+                                  command = lambda: [whenClicked(2)] )
         mangoSmoothie.place(relx = 0.225, rely = 0.05)
 
         water = tk.Button(foodFrame, 
                           image = d_water, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(3)] )
         water.place(relx = 0.4, rely = 0.05)
 
         incaCola = tk.Button(foodFrame, 
                              image = d_inca, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(4)])
         incaCola.place(relx = 0.55, rely = 0.05)
 
         morocho = tk.Button(foodFrame, 
                             image = d_morocho, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(5)] )
         morocho.place(relx = 0.75, rely = 0.05)
         
         sprite = tk.Button(foodFrame, 
                            image = d_sprite, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                           command = lambda: [menuHub(), menu.withdraw()])
+                           command = lambda: [whenClicked(6)] )
         sprite.place(relx = 0.075, rely = 0.5)
 
         strawberrySmoothie = tk.Button(foodFrame, 
                                         image = d_strawberry, 
                                         bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                        command = lambda: [menuHub(), menu.withdraw()])
+                                        command = lambda: [whenClicked(7)] )
         strawberrySmoothie.place(relx = 0.22, rely = 0.5)
 
         fanta = tk.Button(foodFrame, 
                             image = d_fanta, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(8)] )
         fanta.place(relx = 0.4, rely = 0.5)
 
         chicha = tk.Button(foodFrame, 
                             image = d_chicha, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(9)] )
         chicha.place(relx = 0.575, rely = 0.5)
 
         icedTea = tk.Button(foodFrame, 
                             image = d_tea, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(10)] )
         icedTea.place(relx = 0.75, rely = 0.5)
     elif typo == "APPETIZERS":
         chipsWGuac = tk.Button(foodFrame, 
                           image = a_chips, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(11)] )
         chipsWGuac.place(relx = 0.075, rely = 0.05)
 
         tamales = tk.Button(foodFrame, 
                                   image = a_tamales, 
                                   bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                  command = lambda: [menuHub(), menu.withdraw()])
+                                  command = lambda: [whenClicked(12)] )
         tamales.place(relx = 0.3, rely = 0.05)
 
         coxhinas = tk.Button(foodFrame, 
                           image = a_coxhinas, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(13)] )
         coxhinas.place(relx = 0.53, rely = 0.075)
 
         humita = tk.Button(foodFrame, 
                              image = a_humita, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(14)] )
         humita.place(relx = 0.73, rely = 0.15)
 
         paoQueso = tk.Button(foodFrame, 
                             image = a_paoQueso, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(15)] )
         paoQueso.place(relx = 0.075, rely = 0.5)
         
         cheeseSticks = tk.Button(foodFrame, 
                            image = a_cheeseSticks, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                           command = lambda: [menuHub(), menu.withdraw()])
+                           command = lambda: [whenClicked(16)] )
         cheeseSticks.place(relx = 0.3, rely = 0.5)
 
         empCarne = tk.Button(foodFrame, 
                                         image = a_empCarne, 
                                         bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                        command = lambda: [menuHub(), menu.withdraw()])
+                                        command = lambda: [whenClicked(17)] )
         empCarne.place(relx = 0.5, rely = 0.5)
 
         empQueso = tk.Button(foodFrame, 
                             image = a_empQueso, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(18)] )
         empQueso.place(relx = 0.73, rely = 0.5)
     elif typo == "MAIN COURSES":
         ceviche = tk.Button(foodFrame, 
                             image = mc_ceviche, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(19)] )
         ceviche.place(relx = 0.03, rely = 0.05)
 
         feijoada = tk.Button(foodFrame, 
                              image = mc_friijoles, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(2)] )
         feijoada.place(relx = 0.25, rely = 0.05)
 
         steakTakos = tk.Button(foodFrame,
                                image = mc_steackTako, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(21)] )
         steakTakos.place(relx = 0.42, rely = 0.05)
 
         pupusas = tk.Button(foodFrame,
                             image = mc_pupusas, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(22)] )
         pupusas.place(relx = 0.625, rely = 0.05)
 
         salvadorTamas = tk.Button(foodFrame,
                                   image = mc_salvTamas, 
                                   bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                  command = lambda: [menuHub(), menu.withdraw()])
+                                  command = lambda: [whenClicked(23)] )
         salvadorTamas.place(relx = 0.8, rely = 0.05)
         
         mofongo = tk.Button(foodFrame, 
                             image = mc_mofongo, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(24)] )
         mofongo.place(relx = 0.1, rely = 0.5)
 
         sopaDeRes = tk.Button(foodFrame,
                               image = mc_sopaRes, 
                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                              command = lambda: [menuHub(), menu.withdraw()])
+                              command = lambda: [whenClicked(25)] )
         sopaDeRes.place(relx = 0.3, rely = 0.5)
 
         habichuelas = tk.Button(foodFrame,
                                 image = mc_habichuelasArroz, 
                                 bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [menuHub(), menu.withdraw()])
+                                command = lambda: [whenClicked(26)] )
         habichuelas.place(relx = 0.5, rely = 0.5)
 
         tocino = tk.Button(foodFrame, 
                            image = mc_tocinoArroz, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                           command = lambda: [menuHub(), menu.withdraw()])
+                           command = lambda: [whenClicked(27)] )
         tocino.place(relx = 0.7, rely = 0.5)
     elif typo == "SIDES":
         friedPlatano = tk.Button(foodFrame, 
                                  image = s_platano, 
                                  bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                 command = lambda: [menuHub(), menu.withdraw()])
+                                 command = lambda: [whenClicked(28)] )
         friedPlatano.place(relx = 0.05, rely = 0.05)
 
         tostones = tk.Button(foodFrame, 
                              image = s_tostones, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(29)] )
         tostones.place(relx = 0.28, rely = 0.05)
 
         chicharones = tk.Button(foodFrame,
                                 image = s_chicharones, 
                                 bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                command = lambda: [menuHub(), menu.withdraw()])
+                                command = lambda: [whenClicked(30)] )
         chicharones.place(relx = 0.48, rely = 0.05)
 
         beans = tk.Button(foodFrame,
                           image = s_beans, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0,
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(31)] )
         beans.place(relx = 0.7, rely = 0.05)
 
         whiteRice = tk.Button(foodFrame, 
                               image = s_wRice, 
                               bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                              command = lambda: [menuHub(), menu.withdraw()])
+                              command = lambda: [whenClicked(32)] )
         whiteRice.place(relx = 0.05, rely = 0.5)
 
         mexicanSalad = tk.Button(foodFrame,
                                  image = s_mCSalad, 
                                  bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                                 command = lambda: [menuHub(), menu.withdraw()])
+                                 command = lambda: [whenClicked(33)] )
         mexicanSalad.place(relx = 0.27, rely = 0.5)
 
         farofa = tk.Button(foodFrame,
                            image = s_farofa, 
                            bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                           command = lambda: [menuHub(), menu.withdraw()])
+                           command = lambda: [whenClicked(34)] )
         farofa.place(relx = 0.485, rely = 0.5)
 
         fries = tk.Button(foodFrame, 
                           image = s_fries, 
                           bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                          command = lambda: [menuHub(), menu.withdraw()])
+                          command = lambda: [whenClicked(35)] )
         fries.place(relx = 0.7, rely = 0.5)
     elif typo == "DESSERTS":
         tresLeches = tk.Button(foodFrame, 
                                image = d_tresLeches, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(36)] )
         tresLeches.place(relx = 0.05, rely = 0.05)
 
         acaiBowl = tk.Button(foodFrame, 
                              image = d_acaiBowl, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(37)] )
         acaiBowl.place(relx = 0.25, rely = 0.05)
 
         brigadeiro = tk.Button(foodFrame, 
                                image = d_brigadeiro, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(38)] )
         brigadeiro.place(relx = 0.425, rely = 0.05)
 
         churros = tk.Button(foodFrame, 
                             image = d_churros, 
                             bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                            command = lambda: [menuHub(), menu.withdraw()])
+                            command = lambda: [whenClicked(39)] )
         churros.place(relx = 0.6, rely = 0.05)
 
         flan = tk.Button(foodFrame, 
                          image = d_flan, 
                          bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                         command = lambda: [menuHub(), menu.withdraw()])
+                         command = lambda: [whenClicked(40)] )
         flan.place(relx = 0.77, rely = 0.05)
         
         atoleElote = tk.Button(foodFrame, 
                                image = d_atoleElote, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(41)] )
         atoleElote.place(relx = 0.05, rely = 0.5)
 
         quesitos = tk.Button(foodFrame, 
                              image = d_quesitos, 
                              bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                             command = lambda: [menuHub(), menu.withdraw()])
+                             command = lambda: [whenClicked(42)] )
         quesitos.place(relx = 0.2, rely = 0.5)
 
         arrozLeche = tk.Button(foodFrame, 
                                image = d_arrozLeche, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(43)] )
         arrozLeche.place(relx = 0.415, rely = 0.5)
 
         arrozDulce = tk.Button(foodFrame, 
                                image = d_arrozDulce, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(44)] )
         arrozDulce.place(relx = 0.615, rely = 0.5)
 
         dulceLeche = tk.Button(foodFrame, 
                                image = d_dulceLeche, 
                                bg="#FFE2EA", highlightthickness=0, takefocus=0, bd=0, 
-                               command = lambda: [menuHub(), menu.withdraw()])
+                               command = lambda: [whenClicked(45)] )
         dulceLeche.place(relx = 0.78, rely = 0.5)
-
     else:
         pass
 
@@ -735,6 +895,30 @@ def orderHub():
     order.geometry("1488x945")    
     s = tk.Label(order, image=o_hub).pack()
 
+    v = tk.StringVar()
+    v.set(f"Table {sexysexyOrderNum}'s Order:")
+
+    def changeOrder(up):
+        global sexysexyOrderNum
+        global sexysexyOrder
+
+        if up == "add":
+            sexysexyOrderNum = listofOrders[sexysexyOrder]
+            v.set(f"Table {sexysexyOrderNum}'s Order:")
+
+            sexysexyOrder+=1
+            
+            if sexysexyOrder > len(listofOrders)-1:
+                sexysexyOrder = 0
+        else:
+            sexysexyOrderNum = listofOrders[sexysexyOrder]
+            v.set(f"Table {sexysexyOrderNum}'s Order:")
+
+            sexysexyOrder-=1
+            
+            if sexysexyOrder < 0:
+                sexysexyOrder = len(listofOrders)-1
+    # sexysexyOrderNum
     back_button = tk.Button(order, 
                             image=backButt, 
                             bg="#FF88A9", 
@@ -742,7 +926,7 @@ def orderHub():
                             command= lambda: [waiter_hompage(), order.withdraw()])
     back_button.place(relx=0.04, rely=0.06, anchor= 'center')
     header = tk.Label(order, 
-                      text=f"Table X's Order:",
+                      textvariable=v,
                       font=("Inter", 40, "bold"), 
                       bg="#FF88A9", fg="white")
     header.place(relx = 0.07, rely = 0.03)
@@ -752,14 +936,14 @@ def orderHub():
                     bg="#FF88A9", 
                     highlightthickness=0, 
                     takefocus=0, bd=0, 
-                    command = lambda: [job_select(), order.withdraw()])
+                    command = lambda: [changeOrder("sub")])
     bck.place(relx = 0.36, rely = 0.09)
     nxt = tk.Button(order, 
                     image=o_next ,
                     bg="#FF88A9", 
                     highlightthickness=0, 
                     takefocus=0, bd=0,
-                    command = lambda: [job_select(), order.withdraw()])
+                    command = lambda: [changeOrder("add")])
     nxt.place(relx = 0.41, rely = 0.09)
 
 
@@ -774,6 +958,18 @@ def orderHub():
     vbar.place(relx = 0.463, rely = 0.145, relheight=0.789)
 
     canvas.configure(yscrollcommand=vbar.set)
+
+
+    '''
+      vun = sqlite3.connect("z_items.db")
+    cursor = vun.cursor()
+    cursor.execute("SELECT * FROM items WHERE item_id = ?", (itemNum,))
+    
+    item = cursor.fetchone()
+    
+    total = item[3]*quant
+    newInfo = [ tableNum, itemNum, quant, total ]
+    '''
 
     canvas.create_text(50, 50, 
                        text="ITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\nITEMyItem\n", 
@@ -944,15 +1140,48 @@ def signInn():
                   fg="black",bg="white")
     pw.place(relx = 0.368, rely = 0.65)
     
-    
+    def search():
+        usus = name.get()
+        passer = pw.get()
+
+        print(usus, passer)
+        conn = sqlite3.connect("z_employees.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM employees WHERE username = ? AND password = ?", (usus, passer,))
+        
+        item = cursor.fetchone()
+        
+        conn.close()
+
+        if item:
+            global sexyUserId
+            global sexyUserFName
+            sexyUserId = item[0]
+            sexyUserFName = item[1]
+
+            if item[0] == 2:
+                boss_hompage()
+                Start.withdraw()
+            else:
+                job_select()
+                Start.withdraw()
+        else:
+            errerFrame = tk.Frame(Start,  
+                                  bg ="black",
+                                  highlightbackground="#FF88A9", highlightthickness=2)
+            errerFrame.place(relx = 0.3, rely = 0.3)
+            err = tk.Label(errerFrame,
+                           image=signInERROR)
+            err.pack()
+            Start.after(500, errerFrame.destroy)
 
     logIn = tk.Button(Start, 
                    image = signInButt, 
                    bg="white", 
                    highlightthickness=0, 
                    takefocus=0, bd=0, 
-                   command = lambda: [job_select(), Start.withdraw()])
-    logIn.place(relx = 0.38, rely = 0.8)
+                   command = search)
+    logIn.place(relx = 0.375, rely = 0.8)
 
 root = tk.Tk()
 root.geometry("1488x945")
@@ -966,7 +1195,6 @@ root.after(200, lambda:[signInn(), root.withdraw()])
 # font=('Didot', 12)
 
 
-
 '''APP BACKGROUNDS'''
 #LOGIN/JOB SELECTOR
 s_l_page = tk.PhotoImage(file = "signup_login.png")
@@ -978,6 +1206,7 @@ waiter_homepage = tk.PhotoImage(file = "waiter_homepage.png")
 
 #HOST: TABLES
 t_hub = tk.PhotoImage(file = "table screen.png")
+t_edit = tk.PhotoImage(file = "table-edit.png")
 
 #WAITER: MENU
 m_hub = tk.PhotoImage(file = "menu-hubScreen.png")
@@ -989,6 +1218,7 @@ tip_hub = tk.PhotoImage(file = "tips screen.png")
 
 #BOSS PAGE
 b_hub = tk.PhotoImage(file = "boss screen.png")
+b_signUpComplete = tk.PhotoImage(file = "b_signUp complete.png")
 
 
 '''APP BUTTONS'''
@@ -999,6 +1229,8 @@ start_waiter = tk.PhotoImage(file = "start_waiter.png")
 
 signInButt = tk.PhotoImage(file = "sign in button.png")
 signUpButt = tk.PhotoImage(file = "sign up button.png")
+
+signInERROR = tk.PhotoImage(file = "signInIncorrectInputs.png")
 
 #HOMEPAGE BUTTONS
 home_signOutButt = tk.PhotoImage(file = "home-signOutButt.png")
@@ -1026,6 +1258,8 @@ t_16 = tk.PhotoImage(file = "table-16.png")
 t_17 = tk.PhotoImage(file = "table-17.png")
 t_next = tk.PhotoImage(file = "table-next.png")
 t_back = tk.PhotoImage(file = "table-back.png")
+t_yes = tk.PhotoImage(file = "table-yes.png")
+t_no = tk.PhotoImage(file = "table-no.png")
 
 
 #MENU BUTTONS
@@ -1112,5 +1346,15 @@ pw_reset = tk.PhotoImage(file = "boss-resetButt.png")
 
 
 page_one = True
+
+listofOrders = []
+grades_reader=open('orders.txt', 'r')
+for row in grades_reader:
+    listofOrders = row.split()
+
+print(listofOrders, len(listofOrders))
+
+sexysexyOrderNum = listofOrders[0]
+sexysexyOrder = 0
 root.mainloop()
 #finished GUI at 4:57
