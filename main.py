@@ -9,11 +9,11 @@ import tkinter.ttk as ttk
 #from tkmacosx import Button
 from PIL import Image, ImageTk
 
-def checkPassword(password):
+def checkPassword(pw):
     listOfCharacters = ["#","$","%","_","!","?","*","-","(",")","=","+","&",".",",",">","<","/",":",";"]
     isPassword = None
-    if len(password) >= 8:    
-        for characters in password: 
+    if len(pw) >= 8:    
+        for characters in pw: 
             if  (characters not in listOfCharacters) and not (characters.isdigit()) and (characters == characters.upper()): 
                 isPassword = True
                 break
@@ -21,7 +21,7 @@ def checkPassword(password):
                 isPassword = False
         
         if isPassword:
-            for characters in password: 
+            for characters in pw: 
                 if characters.isdigit():
                     isPassword = True
                     break
@@ -29,7 +29,7 @@ def checkPassword(password):
                     isPassword = False
                     
             if isPassword:
-                for characters in password: 
+                for characters in pw: 
                     if characters in listOfCharacters: 
                         isPassword = True
                         break
