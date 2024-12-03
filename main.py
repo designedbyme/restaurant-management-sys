@@ -9,6 +9,37 @@ import tkinter.ttk as ttk
 #from tkmacosx import Button
 from PIL import Image, ImageTk
 
+def checkPassword(password):
+    listOfCharacters = ["#","$","%","_","!","?","*","-","(",")","=","+","&",".",",",">","<","/",":",";"]
+    isPassword = None
+    if len(password) >= 8:    
+        for characters in password: 
+            if  (characters not in listOfCharacters) and not (characters.isdigit()) and (characters == characters.upper()): 
+                isPassword = True
+                break
+            else:
+                isPassword = False
+        
+        if isPassword:
+            for characters in password: 
+                if characters.isdigit():
+                    isPassword = True
+                    break
+                else:
+                    isPassword = False
+                    
+            if isPassword:
+                for characters in password: 
+                    if characters in listOfCharacters: 
+                        isPassword = True
+                        break
+                    else:
+                        isPassword = False
+    else: 
+        isPassword = False
+    
+    return isPassword
+
 def new_id():
     conn = sqlite3.connect("z_employees.db")
     cursor = conn.cursor()
